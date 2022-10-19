@@ -12,16 +12,17 @@
 
         public override void Die()
         {
-            //implement fully handle dieing and game over
-            OnKingDies.Invoke(this,new EventArgs());
+            IsAlive = false;
+            place.Piece = null;
+            place = Field.Invalid;
+            OnKingDies?.Invoke(this,new EventArgs());
         }
 
         protected override void OnStepped(int x, int y)
         {
             if (x == 0 || x == 8 || y == 0 || y == 8)
             {
-                //implement fully handle game over
-                OnDefenderWins.Invoke(this,new EventArgs());
+                OnDefenderWins?.Invoke(this,new EventArgs());
             }
         }
     }

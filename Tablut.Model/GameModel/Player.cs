@@ -8,31 +8,31 @@
     {
         private readonly PlayerSide side;
         private readonly Piece[] pieces;
+        private readonly string name;
 
         public PlayerSide Side => side;
+        public string Name => name;
         public IEnumerable<Piece> Pieces => pieces;
         public IEnumerable<Piece> AlivePieces => pieces.Where(p => p.IsAlive);
         public IEnumerable<Piece> DeadPieces => pieces.Where(p => !p.IsAlive);
 
-        public Player(PlayerSide side,Table table)
+        public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, EventHandler OnPieceSteps, EventHandler OnWrongStep, EventHandler OnKingDies, EventHandler OnDefenderWins,EventHandler OnSoldierDies)
         {
+            this.name = name;
             this.side = side;
-            int pieceCount = (this.side == PlayerSide.Attacker) ? 12 : 9;
+            int pieceCount = (this.side == PlayerSide.Attacker) ? 16 : 9;
             pieces = new Piece[pieceCount];
-            if (this.side == PlayerSide.Attacker)
+            for (int i = 0; i < values.Length; i++)
             {
-                //add all the soldiers in the right place
+                if (this.side == PlayerSide.Defender && i == 0)
+                {
+                    pieces[i] = new King(table.GetField(values[i].x, values[i].y), this, OnPieceSteps, OnWrongStep, OnKingDies, OnDefenderWins);
+                }
+                else
+                {
+                    pieces[i] = new Soldier(table.GetField(values[i].x, values[i].y), this, OnPieceSteps, OnWrongStep,OnSoldierDies);
+                }
             }
-            else
-            {
-                //add all the soldiers and the king in the right place
-            }
-        }
-
-        public void StepToPlaceWithPiece(int px,int py,int x, int y)
-        {
-            Piece piece = AlivePieces.Where(p=> p.Place.X == px && p.Place.Y == py).Single();
-            piece.TryStepToPlace(x, y);
         }
     }
 }

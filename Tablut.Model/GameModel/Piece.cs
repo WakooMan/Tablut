@@ -4,7 +4,7 @@ namespace Tablut.Model.GameModel
 {
     public abstract class Piece
     {
-        private Field place;
+        protected Field place;
         private Player player;
         private bool isAlive;
         private readonly EventHandler OnPieceSteps;
@@ -17,7 +17,7 @@ namespace Tablut.Model.GameModel
             {
                 return isAlive;
             }
-            set 
+            protected set 
             {
                 if (isAlive != value)
                 {
@@ -30,6 +30,7 @@ namespace Tablut.Model.GameModel
         protected Piece(Field place, Player player, EventHandler OnPieceSteps, EventHandler OnWrongStep)
         {
             this.place = place;
+            this.place.Piece = this;
             this.player = player;
             isAlive = true;
             this.OnPieceSteps = OnPieceSteps;
@@ -39,16 +40,16 @@ namespace Tablut.Model.GameModel
         public void TryStepToPlace(int x, int y)
         {
             Field place = this.place.Table.GetField(x, y);
-            if (!place.IsInvalid && StepValidation(place.X, place.Y))
+            if (!place.IsInvalid && place.Type != FieldType.Forbidden && StepValidation(place.X, place.Y))
             {
                 this.place = place;
                 this.place.Piece = this;
-                OnPieceSteps.Invoke(this,new EventArgs());
+                OnPieceSteps?.Invoke(this,new EventArgs());
                 OnStepped(this.place.X, this.Place.Y);
             }
             else
             {
-                OnWrongStep.Invoke(this, new EventArgs());
+                OnWrongStep?.Invoke(this, new EventArgs());
             }
         }
 
