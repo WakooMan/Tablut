@@ -16,7 +16,7 @@
         public IEnumerable<Piece> AlivePieces => pieces.Where(p => p.IsAlive);
         public IEnumerable<Piece> DeadPieces => pieces.Where(p => !p.IsAlive);
 
-        public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, EventHandler OnPieceSteps, EventHandler OnWrongStep, EventHandler OnKingDies, EventHandler OnDefenderWins,EventHandler OnSoldierDies)
+        public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent)
         {
             this.name = name;
             this.side = side;
@@ -26,11 +26,11 @@
             {
                 if (this.side == PlayerSide.Defender && i == 0)
                 {
-                    pieces[i] = new King(table.GetField(values[i].x, values[i].y), this, OnPieceSteps, OnWrongStep, OnKingDies, OnDefenderWins);
+                    pieces[i] = new King(table.GetField(values[i].x, values[i].y), this,InvokeEvent);
                 }
                 else
                 {
-                    pieces[i] = new Soldier(table.GetField(values[i].x, values[i].y), this, OnPieceSteps, OnWrongStep,OnSoldierDies);
+                    pieces[i] = new Soldier(table.GetField(values[i].x, values[i].y), this,InvokeEvent);
                 }
             }
         }

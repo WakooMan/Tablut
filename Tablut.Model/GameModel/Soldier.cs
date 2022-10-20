@@ -2,10 +2,8 @@
 {
     public class Soldier: Piece
     {
-        private readonly EventHandler OnSoldierDies;
-        public Soldier(Field place,Player player,EventHandler OnPieceSteps,EventHandler OnWrongStep,EventHandler OnSoldierDies): base(place,player,OnPieceSteps,OnWrongStep)
+        public Soldier(Field place,Player player, Action<EventTypeFlag, object[]> InvokeEvent) : base(place,player,InvokeEvent)
         {
-            this.OnSoldierDies = OnSoldierDies;
         }
 
         public override void Die()
@@ -13,12 +11,12 @@
             IsAlive = false;
             place.Piece = null;
             place = Field.Invalid;
-            OnSoldierDies?.Invoke(this, new EventArgs());
+            InvokeEvent(EventTypeFlag.OnSoldierDies,new object[] { });
         }
 
         private void KillIfNeeded(Field f1, Field f2)
         {
-            if (!f1.IsInvalid && !f2.IsInvalid && (f2.Type == FieldType.Forbidden || (f2.Piece != null && f2.Piece.Color == Color)) && f1.Piece != null && f1.Piece.Color != Color)
+            if (!f1.IsInvalid && !f2.IsInvalid && (f2.Type == FieldType.Forbidden || (f2.Piece != null && f2.Piece.Player == Player)) && f1.Piece != null && f1.Piece.Player != Player)
             {
                 f1.Piece.Die();
             }

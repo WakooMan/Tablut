@@ -1,0 +1,11 @@
+-Lépés megfelelő helyre sikerül-e
+-Lépés után sikerül-e kiütni az ellenfél bábúját
+-Lépés esetén átugrás másik bábun nem lehetséges
+-Lépés esetén a középső mezőre nem lehet lépni
+-Lépés esetén csak a jelenlegi sorban vagy oszlopban lévő sorokra léphetsz
+-Kijelölés váltása
+-Kijelölni csak a saját bábúdat lehet
+-Kijelölni üres mezőt nem lehet.
+-Ha a királyt kiütik, akkor a támadó játékos nyer
+-Ha a király a pálya szélére lép, akkor a védekező játékos nyer
+-A király nem tud kiütni ellenfelet lépés esetén

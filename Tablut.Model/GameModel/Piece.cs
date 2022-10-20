@@ -5,12 +5,9 @@ namespace Tablut.Model.GameModel
     public abstract class Piece
     {
         protected Field place;
-        private Player player;
+        private readonly Player player;
         private bool isAlive;
-        private readonly EventHandler OnPieceSteps;
-        private readonly EventHandler OnWrongStep;
-
-        public Color Color => (player.Side == PlayerSide.Attacker)?Color.Red:Color.Blue;
+        protected readonly Action<EventTypeFlag, object[]> InvokeEvent;
         public bool IsAlive 
         {
             get
@@ -25,16 +22,16 @@ namespace Tablut.Model.GameModel
                 }
             }
         }
+        public Player Player => player;
         public Field Place => place;
 
-        protected Piece(Field place, Player player, EventHandler OnPieceSteps, EventHandler OnWrongStep)
+        protected Piece(Field place, Player player, Action<EventTypeFlag, object[]> InvokeEvent)
         {
             this.place = place;
             this.place.Piece = this;
             this.player = player;
             isAlive = true;
-            this.OnPieceSteps = OnPieceSteps;
-            this.OnWrongStep = OnWrongStep;
+            this.InvokeEvent = InvokeEvent;
         }
 
         public void TryStepToPlace(int x, int y)
@@ -44,12 +41,12 @@ namespace Tablut.Model.GameModel
             {
                 this.place = place;
                 this.place.Piece = this;
-                OnPieceSteps?.Invoke(this,new EventArgs());
+                InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps | EventTypeFlag.OnPlayerTurnChange,new object[] { });
                 OnStepped(this.place.X, this.Place.Y);
             }
             else
             {
-                OnWrongStep?.Invoke(this, new EventArgs());
+                InvokeEvent.Invoke(EventTypeFlag.OnWrongStep, new object[] { });
             }
         }
 
