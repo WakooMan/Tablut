@@ -11,21 +11,20 @@ namespace Tablut.Model.GameModel
 
     public enum EventTypeFlag : uint
     {
-        OnPieceSteps = 1U,OnWrongStep = 2U,OnSoldierDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPlayerTurnChange = 32U,OnPieceSelected = 64U
+        OnPieceSteps = 1U,OnWrongStep = 2U,OnPieceDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPieceSelected = 32U
     }
 
     public class GameModel
     {
-        public EventHandler? OnAttackerWinsEvent, OnWrongStepEvent, OnSoldierDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent;
+        public EventHandler? OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent;
 
         private readonly Dictionary<EventTypeFlag, MethodInfo?> Events = new Dictionary<EventTypeFlag, MethodInfo?>() 
         {
             {EventTypeFlag.OnPieceSteps, typeof(GameModel).GetMethod(nameof(OnPieceSteps),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnWrongStep, typeof(GameModel).GetMethod(nameof(OnWrongStep),BindingFlags.Instance | BindingFlags.NonPublic)},
-            {EventTypeFlag.OnSoldierDies, typeof(GameModel).GetMethod(nameof(OnSoldierDies),BindingFlags.Instance | BindingFlags.NonPublic)},
+            {EventTypeFlag.OnPieceDies, typeof(GameModel).GetMethod(nameof(OnPieceDies),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnDefenderWins, typeof(GameModel).GetMethod(nameof(OnDefenderWins),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnAttackerWins, typeof(GameModel).GetMethod(nameof(OnAttackerWins),BindingFlags.Instance | BindingFlags.NonPublic)},
-            {EventTypeFlag.OnPlayerTurnChange, typeof(GameModel).GetMethod(nameof(OnPlayerTurnChange),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnPieceSelected, typeof(GameModel).GetMethod(nameof(OnPieceSelected),BindingFlags.Instance | BindingFlags.NonPublic)}
         };
         private Piece? selectedPiece = null;
@@ -34,6 +33,7 @@ namespace Tablut.Model.GameModel
         private Table table = new Table();
         private GameState gameState = GameState.Playing;
 
+        public GameState GameState => gameState;
         public Piece? SelectedPiece => selectedPiece;
         public Player CurrentPlayer => currentPlayer;
         public Table Table => table;
@@ -45,11 +45,11 @@ namespace Tablut.Model.GameModel
             currentPlayer = players[1];
         }
 
-        public GameModel(string AttackerName, string DefenderName,(int x,int y)[] AttackerValues, (int x, int y)[] DefenderValues)
+        public GameModel(string AttackerName, string DefenderName,(int x,int y)[] AttackerValues, (int x, int y)[] DefenderValues,PlayerSide side)
         {
             players[0] = new Player(AttackerName, PlayerSide.Attacker, table, AttackerValues,InvokeEvent);
             players[1] = new Player(DefenderName, PlayerSide.Defender, table, DefenderValues, InvokeEvent);
-            currentPlayer = players[1];
+            currentPlayer = players[(int)side];
         }
 
         public void SelectPieceOrStepWithSelectedPiece(int x, int y)
@@ -80,9 +80,29 @@ namespace Tablut.Model.GameModel
             }
         }
 
-        private void OnPieceSteps()
+        public void Pause()
+        {
+            if (gameState == GameState.Playing)
+            {
+                gameState = GameState.Paused;
+                OnPausedEvent?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public void Unpause()
+        {
+            if (gameState == GameState.Paused)
+            {
+                gameState = GameState.Playing;
+                OnUnpausedEvent?.Invoke(this, new EventArgs());
+            }
+        }
+
+        private void OnPieceSteps(int x, int y)
         {
             OnPieceStepsEvent?.Invoke(this, new EventArgs());
+            currentPlayer = (currentPlayer == players[0]) ? players[1] : players[0];
+            OnPlayerTurnChangeEvent?.Invoke(this, new EventArgs());
         }
 
         private void OnAttackerWins()
@@ -102,14 +122,9 @@ namespace Tablut.Model.GameModel
             OnWrongStepEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnPlayerTurnChange()
+        private void OnPieceDies(int x, int y)
         {
-            OnPlayerTurnChangeEvent?.Invoke(this, new EventArgs());
-        }
-
-        private void OnSoldierDies()
-        {
-            OnSoldierDiesEvent?.Invoke(this, new EventArgs());
+            OnPieceDiesEvent?.Invoke(this, new EventArgs());
         }
 
         private void OnPieceSelected()

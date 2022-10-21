@@ -41,7 +41,7 @@ namespace Tablut.Model.GameModel
             {
                 this.place = place;
                 this.place.Piece = this;
-                InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps | EventTypeFlag.OnPlayerTurnChange,new object[] { });
+                InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps,new object[] { Place.X,Place.Y });
                 OnStepped(this.place.X, this.Place.Y);
             }
             else
@@ -84,7 +84,13 @@ namespace Tablut.Model.GameModel
 
         protected abstract void OnStepped(int x, int y);
 
-        public abstract void Die();
+        public virtual void Die()
+        {
+            IsAlive = false;
+            place.Piece = null;
+            place = Field.Invalid;
+            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { Place.X, Place.Y });
+        }
 
     }
 }

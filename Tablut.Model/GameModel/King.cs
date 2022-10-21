@@ -8,9 +8,7 @@
 
         public override void Die()
         {
-            IsAlive = false;
-            place.Piece = null;
-            place = Field.Invalid;
+            base.Die();
             InvokeEvent(EventTypeFlag.OnAttackerWins, new object[] { });
         }
 

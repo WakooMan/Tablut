@@ -20,8 +20,7 @@
         {
             this.name = name;
             this.side = side;
-            int pieceCount = (this.side == PlayerSide.Attacker) ? 16 : 9;
-            pieces = new Piece[pieceCount];
+            pieces = new Piece[values.Length];
             for (int i = 0; i < values.Length; i++)
             {
                 if (this.side == PlayerSide.Defender && i == 0)

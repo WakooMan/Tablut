@@ -33,7 +33,7 @@
             }
             set 
             {
-                if (piece is null)
+                if (piece != value)
                 {
                     piece = value;
                 }
