@@ -34,7 +34,7 @@ namespace Tablut.Model.GameModel
             this.InvokeEvent = InvokeEvent;
         }
 
-        public void TryStepToPlace(int x, int y)
+        public bool TryStepToPlace(int x, int y)
         {
             Field place = this.place.Table.GetField(x, y);
             if (!place.IsInvalid && place.Type != FieldType.Forbidden && StepValidation(place.X, place.Y))
@@ -43,10 +43,12 @@ namespace Tablut.Model.GameModel
                 this.place.Piece = this;
                 InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps,new object[] { Place.X,Place.Y });
                 OnStepped(this.place.X, this.Place.Y);
+                return true;
             }
             else
             {
                 InvokeEvent.Invoke(EventTypeFlag.OnWrongStep, new object[] { });
+                return false;
             }
         }
 
@@ -89,7 +91,7 @@ namespace Tablut.Model.GameModel
             IsAlive = false;
             place.Piece = null;
             place = Field.Invalid;
-            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { Place.X, Place.Y });
+            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { Player,Place.X, Place.Y });
         }
 
     }

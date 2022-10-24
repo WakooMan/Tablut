@@ -9,6 +9,8 @@
         private readonly PlayerSide side;
         private readonly Piece[] pieces;
         private readonly string name;
+        private readonly Action<EventTypeFlag, object[]> InvokeEvent;
+        public Piece? SelectedPiece { get; private set; } = null;
 
         public PlayerSide Side => side;
         public string Name => name;
@@ -18,6 +20,7 @@
 
         public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent)
         {
+            this.InvokeEvent = InvokeEvent;
             this.name = name;
             this.side = side;
             pieces = new Piece[values.Length];
@@ -30,6 +33,27 @@
                 else
                 {
                     pieces[i] = new Soldier(table.GetField(values[i].x, values[i].y), this,InvokeEvent);
+                }
+            }
+        }
+
+        public void TrySelectPiece(int x, int y)
+        {
+            Piece? piece = AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
+            if (piece != null)
+            {
+                SelectedPiece = piece;
+                InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { });
+            }
+        }
+
+        public void TryStepToPlace(int x, int y)
+        {
+            if (SelectedPiece != null)
+            {
+                if (SelectedPiece.TryStepToPlace(x, y))
+                {
+                    SelectedPiece = null;
                 }
             }
         }

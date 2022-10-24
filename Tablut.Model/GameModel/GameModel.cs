@@ -27,14 +27,12 @@ namespace Tablut.Model.GameModel
             {EventTypeFlag.OnAttackerWins, typeof(GameModel).GetMethod(nameof(OnAttackerWins),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnPieceSelected, typeof(GameModel).GetMethod(nameof(OnPieceSelected),BindingFlags.Instance | BindingFlags.NonPublic)}
         };
-        private Piece? selectedPiece = null;
         private Player currentPlayer;
         private Player[] players = new Player[2];
         private Table table = new Table();
         private GameState gameState = GameState.Playing;
 
         public GameState GameState => gameState;
-        public Piece? SelectedPiece => selectedPiece;
         public Player CurrentPlayer => currentPlayer;
         public Table Table => table;
 
@@ -52,20 +50,18 @@ namespace Tablut.Model.GameModel
             currentPlayer = players[(int)side];
         }
 
-        public void SelectPieceOrStepWithSelectedPiece(int x, int y)
+        public void SelectPiece(int x, int y)
         {
             if (gameState == GameState.Playing)
             {
-                Piece? piece = currentPlayer.AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
-                if (piece != null)
-                {
-                    selectedPiece = piece;
-                    InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { });
-                }
-                else if (selectedPiece != null)
-                {
-                    selectedPiece.TryStepToPlace(x, y);
-                }
+                currentPlayer.TrySelectPiece(x, y);
+            }
+        }
+        public void StepToField(int x, int y)
+        {
+            if (gameState == GameState.Playing)
+            {
+                currentPlayer.TryStepToPlace(x, y);
             }
         }
 
@@ -122,8 +118,12 @@ namespace Tablut.Model.GameModel
             OnWrongStepEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnPieceDies(int x, int y)
+        private void OnPieceDies(Player player,int x, int y)
         {
+            if (player.AlivePieces.Count() == 0 && player.Side == PlayerSide.Attacker)
+            {
+                InvokeEvent(EventTypeFlag.OnDefenderWins,new object[] { });
+            }
             OnPieceDiesEvent?.Invoke(this, new EventArgs());
         }
 
