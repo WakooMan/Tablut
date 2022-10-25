@@ -8,7 +8,7 @@
 
         private void KillIfNeeded(Field f1, Field f2)
         {
-            if (!f1.IsInvalid && !f2.IsInvalid && (f2.Type == FieldType.Forbidden || (f2.Piece != null && f2.Piece.Player == Player)) && f1.Piece != null && f1.Piece.Player != Player)
+            if (!f1.IsInvalid && !f2.IsInvalid && ((f2.Type == FieldType.Forbidden && f2.Piece == null) || (f2.Piece != null && f2.Piece.Player == Player)) && f1.Piece != null && f1.Piece.Player != Player)
             {
                 f1.Piece.Die();
             }

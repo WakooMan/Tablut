@@ -36,10 +36,11 @@ namespace Tablut.Model.GameModel
 
         public bool TryStepToPlace(int x, int y)
         {
-            Field place = this.place.Table.GetField(x, y);
-            if (!place.IsInvalid && place.Type != FieldType.Forbidden && StepValidation(place.X, place.Y))
+            Field f = this.place.Table.GetField(x, y);
+            if (!f.IsInvalid && f.Type != FieldType.Forbidden && StepValidation(x,y))
             {
-                this.place = place;
+                this.place.Piece = null;
+                this.place = f;
                 this.place.Piece = this;
                 InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps,new object[] { Place.X,Place.Y });
                 OnStepped(this.place.X, this.Place.Y);
