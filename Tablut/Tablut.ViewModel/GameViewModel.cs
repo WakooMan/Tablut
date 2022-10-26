@@ -26,23 +26,23 @@ namespace Tablut.ViewModel
                     {
                         if (f.Piece.Player.Side == PlayerSide.Attacker)
                         {
-                            imgsrc = "AttackerSoldier.png";
+                            imgsrc = "Resources/AttackerSoldier.png";
                         }
                         else
                         {
                             if (f.Piece is King)
                             {
-                                imgsrc = "DefenderKing.png";
+                                imgsrc = "Resources/DefenderKing.png";
                             }
                             else
                             {
-                                imgsrc = "DefenderSoldier.png";
+                                imgsrc = "Resources/DefenderSoldier.png";
                             }
                         }
                     }
                     else
                     {
-                        imgsrc = "FieldBase.png";
+                        imgsrc = "Resources/FieldBase.png";
                     }
                     Fields.Add(new FieldViewModel(i,j,imgsrc, new DelegateCommand(Command_SelectOrStep)));
                 }

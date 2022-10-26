@@ -7,7 +7,11 @@
         <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
             <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
-        <CollectionView Grid.Row="9" Grid.Column="9" ItemsSource="{Binding Fields}">
+        <CollectionView ItemsSource="{Binding Fields}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Horizontal"
+                        Span="9" />
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}"></ImageButton>
