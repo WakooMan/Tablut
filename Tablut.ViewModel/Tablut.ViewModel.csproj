@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="GameModel\" />
+    <ProjectReference Include="..\Tablut.Model\Tablut.Model.csproj" />
   </ItemGroup>
 
 </Project>

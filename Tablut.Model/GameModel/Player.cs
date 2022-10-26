@@ -1,4 +1,8 @@
-﻿namespace Tablut.Model.GameModel
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Tablut.Model.GameModel
 {
     public enum PlayerSide
     {
@@ -10,7 +14,7 @@
         private readonly Piece[] pieces;
         private readonly string name;
         private readonly Action<EventTypeFlag, object[]> InvokeEvent;
-        public Piece? SelectedPiece { get; private set; } = null;
+        public Piece SelectedPiece { get; private set; } = null;
 
         public PlayerSide Side => side;
         public string Name => name;
@@ -39,7 +43,7 @@
 
         public void TrySelectPiece(int x, int y)
         {
-            Piece? piece = AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
+            Piece piece = AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
             if (piece != null)
             {
                 SelectedPiece = piece;

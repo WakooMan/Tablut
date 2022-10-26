@@ -14,4 +14,24 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tablut.Model\Tablut.Model.csproj" />
+    <ProjectReference Include="..\Tablut.ViewModel\Tablut.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\AttackerSoldier.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\DefenderKing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\DefenderSoldier.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\FieldBase.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

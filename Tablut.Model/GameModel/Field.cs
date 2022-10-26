@@ -8,8 +8,8 @@
     {
         private int x;
         private int y;
-        private Piece? piece;
-        private Table? table;
+        private Piece piece;
+        private Table table;
         private FieldType type;
 
         public bool IsInvalid => type == FieldType.Invalid;
@@ -24,8 +24,8 @@
         public FieldType Type => type;
         public int X => x;
         public int Y => y;
-        public Table? Table => table;
-        public Piece? Piece
+        public Table Table => table;
+        public Piece Piece
         {
             get 
             {
@@ -40,7 +40,7 @@
             }
         }
 
-        public Field(Table? table,FieldType type,int x, int y)
+        public Field(Table table,FieldType type,int x, int y)
         {
             this.table = table;
             this.type = type;

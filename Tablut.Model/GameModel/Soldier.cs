@@ -1,4 +1,6 @@
-﻿namespace Tablut.Model.GameModel
+﻿using System;
+
+namespace Tablut.Model.GameModel
 {
     public class Soldier: Piece
     {

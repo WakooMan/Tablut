@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Tablut.Model.GameModel
 {
@@ -55,7 +56,7 @@ namespace Tablut.Model.GameModel
 
         private bool StepValidation(int x, int y)
         {
-            Table? table = this.place.Table;
+            Table table = this.place.Table;
             if (this.place.X == x && y != this.place.Y)
             {
                 for (int iy = 0; iy < 9; iy++)

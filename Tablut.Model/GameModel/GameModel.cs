@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -16,9 +17,9 @@ namespace Tablut.Model.GameModel
 
     public class GameModel
     {
-        public EventHandler? OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent;
+        public EventHandler OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent;
 
-        private readonly Dictionary<EventTypeFlag, MethodInfo?> Events = new Dictionary<EventTypeFlag, MethodInfo?>() 
+        private readonly Dictionary<EventTypeFlag, MethodInfo> Events = new Dictionary<EventTypeFlag, MethodInfo>() 
         {
             {EventTypeFlag.OnPieceSteps, typeof(GameModel).GetMethod(nameof(OnPieceSteps),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnWrongStep, typeof(GameModel).GetMethod(nameof(OnWrongStep),BindingFlags.Instance | BindingFlags.NonPublic)},
@@ -50,16 +51,16 @@ namespace Tablut.Model.GameModel
             currentPlayer = players[(int)side];
         }
 
-        public void SelectPiece(int x, int y)
+        public void SelectOrStep(int x , int y)
         {
-            if (gameState == GameState.Playing)
+            Field f = Table.GetField(x, y);
+            if (f.IsInvalid || gameState != GameState.Playing)
+                return;
+            if (f.Piece != null && f.Piece.Player == CurrentPlayer)
             {
                 currentPlayer.TrySelectPiece(x, y);
             }
-        }
-        public void StepToField(int x, int y)
-        {
-            if (gameState == GameState.Playing)
+            else
             {
                 currentPlayer.TryStepToPlace(x, y);
             }
