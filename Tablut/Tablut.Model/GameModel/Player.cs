@@ -45,6 +45,10 @@ namespace Tablut.Model.GameModel
             Piece piece = AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
             if (piece != null)
             {
+                if (SelectedPiece != null)
+                {
+                    InvokeEvent(EventTypeFlag.OnBeforePieceSelectionChanged, new object[] { });
+                }
                 SelectedPiece = piece;
                 InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { });
             }

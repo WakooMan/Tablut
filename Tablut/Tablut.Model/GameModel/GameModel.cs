@@ -12,21 +12,22 @@ namespace Tablut.Model.GameModel
 
     public enum EventTypeFlag : uint
     {
-        OnPieceSteps = 1U,OnWrongStep = 2U,OnPieceDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPieceSelected = 32U
+        OnPieceSteps = 1U,OnWrongStep = 2U,OnPieceDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPieceSelected = 32U,OnBeforePieceSelectionChanged = 64U
     }
 
     public class GameModel
     {
-        public EventHandler OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent;
+        public EventHandler OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent,OnBeforePieceSelectionChangedEvent;
 
-        private readonly Dictionary<EventTypeFlag, MethodInfo> Events = new Dictionary<EventTypeFlag, MethodInfo>() 
+        private readonly Dictionary<EventTypeFlag, MethodInfo> Events = new Dictionary<EventTypeFlag, MethodInfo>()
         {
             {EventTypeFlag.OnPieceSteps, typeof(GameModel).GetMethod(nameof(OnPieceSteps),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnWrongStep, typeof(GameModel).GetMethod(nameof(OnWrongStep),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnPieceDies, typeof(GameModel).GetMethod(nameof(OnPieceDies),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnDefenderWins, typeof(GameModel).GetMethod(nameof(OnDefenderWins),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnAttackerWins, typeof(GameModel).GetMethod(nameof(OnAttackerWins),BindingFlags.Instance | BindingFlags.NonPublic)},
-            {EventTypeFlag.OnPieceSelected, typeof(GameModel).GetMethod(nameof(OnPieceSelected),BindingFlags.Instance | BindingFlags.NonPublic)}
+            {EventTypeFlag.OnPieceSelected, typeof(GameModel).GetMethod(nameof(OnPieceSelected),BindingFlags.Instance | BindingFlags.NonPublic)},
+            {EventTypeFlag.OnBeforePieceSelectionChanged, typeof(GameModel).GetMethod(nameof(OnBeforePieceSelectionChanged),BindingFlags.Instance | BindingFlags.NonPublic)}
         };
         private Player currentPlayer;
         private Player[] players = new Player[2];
@@ -87,9 +88,9 @@ namespace Tablut.Model.GameModel
             }
         }
 
-        private void OnPieceSteps(int x, int y)
+        private void OnPieceSteps(int oldx,int oldy,int x, int y)
         {
-            OnPieceStepsEvent?.Invoke(this, new EventArgs());
+            OnPieceStepsEvent?.Invoke(new object[] { oldx,oldy,x,y}, new EventArgs());
             currentPlayer = (currentPlayer == players[0]) ? players[1] : players[0];
             OnPlayerTurnChangeEvent?.Invoke(this, new EventArgs());
         }
@@ -117,12 +118,17 @@ namespace Tablut.Model.GameModel
             {
                 InvokeEvent(EventTypeFlag.OnDefenderWins,new object[] { });
             }
-            OnPieceDiesEvent?.Invoke(this, new EventArgs());
+            OnPieceDiesEvent?.Invoke(new object[] { x,y }, new EventArgs());
         }
 
         private void OnPieceSelected()
         {
             OnPieceSelectedEvent?.Invoke(this,new EventArgs());
+        }
+
+        private void OnBeforePieceSelectionChanged()
+        {
+            OnBeforePieceSelectionChangedEvent?.Invoke(this, new EventArgs());
         }
     }
 }

@@ -16,23 +16,47 @@ namespace Tablut.ViewModel
         public GameViewModel(GameModel model)
         {
             _model = model;
+            _model.OnPieceDiesEvent += (o, e) =>
+            {
+                object[] args = (object[])o;
+                int x = (int)args[0], y = (int)args[1];
+                FieldViewModel fVM = GetFieldViewModel(x, y);
+                fVM.Piece = null;
+            };
             _model.OnPieceStepsEvent += (o, e) =>
             {
-
+                object[] args = (object[])o;
+                int oldx = (int)args[0], oldy = (int)args[1];
+                int newx = (int)args[2], newy = (int)args[3];
+                Field From = _model.Table.GetField(oldx, oldy);
+                Field To = _model.Table.GetField(newx, newy);
+                FieldViewModel FromVM = GetFieldViewModel(oldx, oldy);
+                FieldViewModel ToVM = GetFieldViewModel(newx, newy);
+                FromVM.Piece = From.Piece;
+                ToVM.Piece = To.Piece;
+                ToVM.IsSelected = false;
             };
-            _model.OnPieceUnselectedEvent += (o,e)
+            _model.OnBeforePieceSelectionChangedEvent += (o,e) =>
             {
-                
+                Field f = _model.CurrentPlayer.SelectedPiece.Place;
+                FieldViewModel fvm = GetFieldViewModel(f.X, f.Y);
+                fvm.IsSelected = false;
+                foreach (Field field in _model.AvailableFields)
+                {
+                    FieldViewModel availablefvm = GetFieldViewModel(field.X, field.Y);
+                    availablefvm.Available = false;
+                }
+
             };
             _model.OnPieceSelectedEvent += (o, e) =>
             {
                 Field f = _model.CurrentPlayer.SelectedPiece.Place;
                 FieldViewModel fvm = GetFieldViewModel(f.X, f.Y);
-                fvm.ImageSource = "Selected" + fvm.ImageSource;
+                fvm.IsSelected = true;
                 foreach (Field field in _model.AvailableFields)
                 {
-                    FieldViewModel availablefvm = GetFieldViewModel(f.X, f.Y);
-                    availablefvm.ImageSource = "Available" + availablefvm.ImageSource;
+                    FieldViewModel availablefvm = GetFieldViewModel(field.X, field.Y);
+                    availablefvm.Available = true;
                 }
             };
             _model.OnDefenderWinsEvent += (o, e) =>
@@ -69,27 +93,7 @@ namespace Tablut.ViewModel
 
         private FieldViewModel CreateFieldViewModel(Field f)
         {
-            string imagesrc = "Field.png";
-            if (f.Piece != null)
-            {
-                if (f.Piece.Player.Side == PlayerSide.Attacker)
-                {
-                    imagesrc = "AttackerSoldier" + imagesrc;
-                }
-                else
-                {
-                    if (f.Piece is King)
-                    {
-                        imagesrc = "DefenderKing" + imagesrc;
-                    }
-                    else
-                    {
-                        imagesrc = "DefenderSoldier" + imagesrc;
-                    }
-                }
-            }
-            imagesrc = "Resources/" + imagesrc;
-            return new FieldViewModel(f.X, f.Y, imagesrc, new DelegateCommand(Command_StepOrSelect));
+            return new FieldViewModel(f.X, f.Y,f.Piece,_model.CurrentPlayer.SelectedPiece == f.Piece,_model.AvailableFields.Contains(f),new DelegateCommand(Command_StepOrSelect));
         }
 
         private void Command_StepOrSelect(object param)
