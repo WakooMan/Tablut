@@ -21,7 +21,6 @@ namespace Tablut.Model.GameModel
         public IEnumerable<Piece> Pieces => pieces;
         public IEnumerable<Piece> AlivePieces => pieces.Where(p => p.IsAlive);
         public IEnumerable<Piece> DeadPieces => pieces.Where(p => !p.IsAlive);
-
         public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent)
         {
             this.InvokeEvent = InvokeEvent;
@@ -41,7 +40,7 @@ namespace Tablut.Model.GameModel
             }
         }
 
-        public void TrySelectPiece(int x, int y)
+        public void TryStepOrSelect(int x, int y)
         {
             Piece piece = AlivePieces.Where(p => p.Place.X == x && p.Place.Y == y).SingleOrDefault();
             if (piece != null)
@@ -49,15 +48,18 @@ namespace Tablut.Model.GameModel
                 SelectedPiece = piece;
                 InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { });
             }
-        }
-
-        public void TryStepToPlace(int x, int y)
-        {
-            if (SelectedPiece != null)
+            else
             {
-                if (SelectedPiece.TryStepToPlace(x, y))
+                if (SelectedPiece != null)
                 {
-                    SelectedPiece = null;
+                    if (SelectedPiece.TryStepToPlace(x, y))
+                    {
+                        SelectedPiece = null;
+                    }
+                }
+                else
+                {
+                    InvokeEvent(EventTypeFlag.OnWrongStep, new object[] { });
                 }
             }
         }

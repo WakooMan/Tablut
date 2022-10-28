@@ -15,7 +15,7 @@ namespace Tablut
         {
             InitializeComponent();
             _model = new GameModel("Viktor","Viktória");
-            _viewModel = new GameViewModel("Viktor", "Viktória");
+            _viewModel = new GameViewModel(_model);
             _rootPage = new NavigationPage(new MainPage());
             _rootPage.BindingContext = _viewModel;
             MainPage = _rootPage;

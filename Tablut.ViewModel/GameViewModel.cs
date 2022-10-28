@@ -53,7 +53,7 @@ namespace Tablut.ViewModel
         {
             if (param != null && param is FieldViewModel field)
             {
-                _model.SelectOrStep(field.X,field.Y);
+                _model.StepOrSelect(field.X,field.Y);
             }
         }
     }

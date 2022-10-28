@@ -13,47 +13,90 @@ namespace Tablut.ViewModel
         private GameModel _model;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
-        public GameViewModel(string player1, string player2)
+        public GameViewModel(GameModel model)
         {
-            _model = new GameModel(player1,player2);
+            _model = model;
+            _model.OnPieceStepsEvent += (o, e) =>
+            {
+
+            };
+            _model.OnPieceUnselectedEvent += (o,e)
+            {
+                
+            };
+            _model.OnPieceSelectedEvent += (o, e) =>
+            {
+                Field f = _model.CurrentPlayer.SelectedPiece.Place;
+                FieldViewModel fvm = GetFieldViewModel(f.X, f.Y);
+                fvm.ImageSource = "Selected" + fvm.ImageSource;
+                foreach (Field field in _model.AvailableFields)
+                {
+                    FieldViewModel availablefvm = GetFieldViewModel(f.X, f.Y);
+                    availablefvm.ImageSource = "Available" + availablefvm.ImageSource;
+                }
+            };
+            _model.OnDefenderWinsEvent += (o, e) =>
+            {
+            };
+            _model.OnAttackerWinsEvent += (o, e) =>
+            {
+            };
+            _model.OnWrongStepEvent += (o, e) =>
+            {
+            };
+            _model.OnPlayerTurnChangeEvent += (o, e) =>
+            {
+            };
+            _model.OnPausedEvent += (o, e) =>
+            {
+            };
+            _model.OnUnpausedEvent += (o, e) =>
+            {
+            };
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    Field f = _model.Table.GetField(i,j);
-                    string imgsrc;
-                    if (f.Piece != null)
-                    {
-                        if (f.Piece.Player.Side == PlayerSide.Attacker)
-                        {
-                            imgsrc = "Resources/AttackerSoldier.png";
-                        }
-                        else
-                        {
-                            if (f.Piece is King)
-                            {
-                                imgsrc = "Resources/DefenderKing.png";
-                            }
-                            else
-                            {
-                                imgsrc = "Resources/DefenderSoldier.png";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        imgsrc = "Resources/FieldBase.png";
-                    }
-                    Fields.Add(new FieldViewModel(i,j,imgsrc, new DelegateCommand(Command_SelectOrStep)));
+                    Fields.Add(CreateFieldViewModel(_model.Table.GetField(i, j)));
                 }
             }
         }
 
-        private void Command_SelectOrStep(object param)
+        private FieldViewModel GetFieldViewModel(int X, int Y)
+        {
+            return Fields[X * 9 + Y];
+        }
+
+        private FieldViewModel CreateFieldViewModel(Field f)
+        {
+            string imagesrc = "Field.png";
+            if (f.Piece != null)
+            {
+                if (f.Piece.Player.Side == PlayerSide.Attacker)
+                {
+                    imagesrc = "AttackerSoldier" + imagesrc;
+                }
+                else
+                {
+                    if (f.Piece is King)
+                    {
+                        imagesrc = "DefenderKing" + imagesrc;
+                    }
+                    else
+                    {
+                        imagesrc = "DefenderSoldier" + imagesrc;
+                    }
+                }
+            }
+            imagesrc = "Resources/" + imagesrc;
+            return new FieldViewModel(f.X, f.Y, imagesrc, new DelegateCommand(Command_StepOrSelect));
+        }
+
+        private void Command_StepOrSelect(object param)
         {
             if (param != null && param is FieldViewModel field)
             {
-                _model.SelectOrStep(field.X,field.Y);
+                _model.StepOrSelect(field.X,field.Y);
             }
         }
     }

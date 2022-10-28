@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tablut.Controls"
              x:Class="Tablut.MainPage">
 
     <StackLayout>
@@ -14,7 +14,9 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}"></ImageButton>
+
+                    <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}">
+                    </ImageButton>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -36,7 +36,7 @@ namespace Tablut.Model.GameModel
         public GameState GameState => gameState;
         public Player CurrentPlayer => currentPlayer;
         public Table Table => table;
-
+        public IReadOnlyList<Field> AvailableFields => Table.AvailableFields(CurrentPlayer.SelectedPiece);
         public GameModel(string AttackerName, string DefenderName)
         {
             players[0] = new Player(AttackerName, PlayerSide.Attacker, table,new (int x, int y)[16] { (0,3),(0,4),(0,5),(1,4),(3,0),(4,0),(5,0),(4,1),(3,8),(4,8),(5,8),(4,7),(8,3),(8,4),(8,5),(7,4)},InvokeEvent);
@@ -51,19 +51,11 @@ namespace Tablut.Model.GameModel
             currentPlayer = players[(int)side];
         }
 
-        public void SelectOrStep(int x , int y)
+        public void StepOrSelect(int x , int y)
         {
-            Field f = Table.GetField(x, y);
-            if (f.IsInvalid || gameState != GameState.Playing)
+            if (gameState != GameState.Playing)
                 return;
-            if (f.Piece != null && f.Piece.Player == CurrentPlayer)
-            {
-                currentPlayer.TrySelectPiece(x, y);
-            }
-            else
-            {
-                currentPlayer.TryStepToPlace(x, y);
-            }
+            currentPlayer.TryStepOrSelect(x, y);
         }
 
         private void InvokeEvent(EventTypeFlag EventTypeFlags, object[] args)

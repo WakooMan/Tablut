@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Tablut.Model.GameModel
 {
@@ -37,8 +39,8 @@ namespace Tablut.Model.GameModel
 
         public bool TryStepToPlace(int x, int y)
         {
-            Field f = this.place.Table.GetField(x, y);
-            if (!f.IsInvalid && f.Type != FieldType.Forbidden && StepValidation(x,y))
+            Field f = place.Table.GetField(x, y);
+            if (!f.IsInvalid && f.Type != FieldType.Forbidden && place.Table.AvailableFields(this).Contains(f))
             {
                 this.place.Piece = null;
                 this.place = f;
@@ -50,38 +52,6 @@ namespace Tablut.Model.GameModel
             else
             {
                 InvokeEvent.Invoke(EventTypeFlag.OnWrongStep, new object[] { });
-                return false;
-            }
-        }
-
-        private bool StepValidation(int x, int y)
-        {
-            Table table = this.place.Table;
-            if (this.place.X == x && y != this.place.Y)
-            {
-                for (int iy = 0; iy < 9; iy++)
-                {
-                    if (table.GetField(x,iy).Piece != null && ((iy <= y && iy > this.place.Y) || (iy >= y && iy < this.place.Y)))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else if (this.place.Y == y && x != this.place.X)
-            {
-
-                for (int ix = 0; ix < 9; ix++)
-                {
-                    if (table.GetField(ix, y).Piece != null && ((ix <= x && ix > this.place.X) || (ix >= x && ix < this.place.X)))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
                 return false;
             }
         }
