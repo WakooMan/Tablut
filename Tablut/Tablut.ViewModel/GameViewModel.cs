@@ -8,14 +8,14 @@ using Tablut.Model.GameModel;
 
 namespace Tablut.ViewModel
 {
-    public class GameViewModel: BindingSource
+    public class GameViewModel: ApplicationViewModel
     {
         private GameModel _model;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
-        public GameViewModel(GameModel model)
+        public GameViewModel(string p1, string p2)
         {
-            _model = model;
+            _model = new GameModel(p1,p2);
             _model.OnPieceDiesEvent += (o, e) =>
             {
                 object[] args = (object[])o;
@@ -61,9 +61,11 @@ namespace Tablut.ViewModel
             };
             _model.OnDefenderWinsEvent += (o, e) =>
             {
+                
             };
             _model.OnAttackerWinsEvent += (o, e) =>
             {
+
             };
             _model.OnWrongStepEvent += (o, e) =>
             {

@@ -8,18 +8,23 @@ namespace Tablut
 {
     public partial class App : Application
     {
-        private GameModel _model;
-        private GameViewModel _viewModel;
         private NavigationPage _rootPage;
+        private ApplicationState CurrentState;
         public App()
         {
             InitializeComponent();
-            _model = new GameModel("Viktor","Viktória");
-            _viewModel = new GameViewModel(_model);
-            _rootPage = new NavigationPage(new MainPage());
-            _rootPage.BindingContext = _viewModel;
+            ApplicationViewModel.OnPushState = async (state) =>
+            {
+                CurrentState = state;
+                await _rootPage.Navigation.PushAsync(CurrentState.Page);
+                _rootPage.BindingContext = CurrentState.Model;
+            };
+            CurrentState = new ApplicationState(new MainPage(), new GameViewModel("Viktor", "Viktória"));
+            _rootPage = new NavigationPage(CurrentState.Page);
+            _rootPage.BindingContext = CurrentState.Model;
             MainPage = _rootPage;
         }
+       
 
         protected override void OnStart()
         {
