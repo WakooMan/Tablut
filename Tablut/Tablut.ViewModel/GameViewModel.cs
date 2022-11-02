@@ -13,6 +13,7 @@ namespace Tablut.ViewModel
         private GameModel _model;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
+        public string TitleText => "Tablut";
         public GameViewModel(string p1, string p2)
         {
             _model = new GameModel(p1,p2);

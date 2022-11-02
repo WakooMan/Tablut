@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tablut.InitGamePage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="SaddleBrown">
+            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
+                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+            </Frame>
+            <Label Text="{Binding P1Text}"></Label>
+            <Entry Text="{Binding P1Name}"></Entry>
+            <Label Text="{Binding P2Text}"></Label>
+            <Entry Text="{Binding P2Name}"></Entry>
+            <Button Text="{Binding StartText}" Command="{Binding StartCommand}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

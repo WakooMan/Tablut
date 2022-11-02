@@ -13,13 +13,13 @@ namespace Tablut
         public App()
         {
             InitializeComponent();
-            ApplicationViewModel.OnPushState = async (state) =>
+            ApplicationViewModel.SetOnPushState(async (viewModel) =>
             {
-                CurrentState = state;
+                CurrentState.OnPushState(viewModel);
                 await _rootPage.Navigation.PushAsync(CurrentState.Page);
                 _rootPage.BindingContext = CurrentState.Model;
-            };
-            CurrentState = new ApplicationState(new MainPage(), new GameViewModel("Viktor", "Viktória"));
+            });
+            CurrentState = new ApplicationState(new InitGameViewModel());
             _rootPage = new NavigationPage(CurrentState.Page);
             _rootPage.BindingContext = CurrentState.Model;
             MainPage = _rootPage;

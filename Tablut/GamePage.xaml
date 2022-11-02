@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Tablut.MainPage">
+             x:Class="Tablut.GamePage">
 
     <StackLayout BackgroundColor="SaddleBrown">
         <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
-            <Label Text="Tablut" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+            <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
         </Frame>
         <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}">
             <CollectionView.ItemsLayout>

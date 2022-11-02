@@ -4,8 +4,16 @@ namespace Tablut.ViewModel
 {
     public abstract class ApplicationViewModel: BindingSource
     {
-        public static Action<ApplicationState> OnPushState;
+        protected static Action<ApplicationViewModel> OnPushState = null;
 
-        protected static void PushState(ApplicationState state) => OnPushState?.Invoke(state);
+        public static void SetOnPushState(Action<ApplicationViewModel> onPushState)
+        {
+            if (OnPushState == null)
+            {
+                OnPushState = onPushState;
+            }
+        }
+
+        
     }
 }
