@@ -71,8 +71,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Persistence\" />
-  </ItemGroup>
 </Project>
