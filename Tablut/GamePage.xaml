@@ -2,23 +2,41 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.GamePage">
-
-    <StackLayout BackgroundColor="SaddleBrown">
-        <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
-            <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
-        </Frame>
-        <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"
+    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+        <StackLayout BackgroundColor="SaddleBrown" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
+                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+            </Frame>
+            <Label Text="{Binding AttackerName}" TextColor="Green" FontSize="25" FontAttributes="Bold"></Label>
+            <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
                             Span="9" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}" CommandParameter="{Binding}">
-                    </ImageButton>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}" CommandParameter="{Binding}">
+                        </ImageButton>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Text="{Binding DefenderName}" TextColor="Green" FontSize="25" FontAttributes="Bold"></Label>
+            <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}"></Button>
+        </StackLayout>
+        <ContentView
+                     IsVisible="{Binding IsInGameMenu}"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All">
+            <StackLayout
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                        BackgroundColor="SaddleBrown">
+                <Button Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
+                <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
+                <Button Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>
+                <Button Text="{Binding ExitText}" Command="{Binding ExitCommand}" Padding="10" Margin="10"></Button>
+            </StackLayout>
+        </ContentView>
+    </AbsoluteLayout>
 
 </ContentPage>

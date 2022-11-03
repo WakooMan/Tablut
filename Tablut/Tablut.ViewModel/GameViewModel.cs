@@ -11,12 +11,60 @@ namespace Tablut.ViewModel
     public class GameViewModel: ApplicationViewModel
     {
         private GameModel _model;
+        private bool _isInGameMenu = false;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
+        public string SaveFileName { get; }
+
         public string TitleText => "Tablut";
-        public GameViewModel(string p1, string p2)
+        public string MenuText => "Game Menu";
+        public string ContinueText => "Continue Game";
+        public string SaveText => "Save Game";
+        public string SaveAndExitText => "Save And Exit";
+        public string ExitText => "Exit Game";
+        public DelegateCommand MenuCommand { get; private set; }
+        public DelegateCommand ContinueCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand SaveAndExitCommand { get; private set; }
+        public DelegateCommand ExitCommand { get; private set; }
+        public bool IsInGameMenu 
+        { 
+            get 
+            { 
+                return _isInGameMenu; 
+            } 
+            private set 
+            { 
+                if (value != _isInGameMenu) 
+                {
+                    _isInGameMenu = value;
+                    OnPropertyChanged();
+                } 
+            } 
+        }
+        public string AttackerName => _model.AttackerName;
+        public string DefenderName => _model.DefenderName;
+        public GameViewModel(GameModel model,string saveFileName)
         {
-            _model = new GameModel(p1,p2);
+            _model = model;
+            SaveFileName = saveFileName;
+            Initialize();
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    Fields.Add(CreateFieldViewModel(_model.Table.GetField(i, j)));
+                }
+            }
+        }
+
+        private void Initialize()
+        {
+            MenuCommand = new DelegateCommand(Command_Menu);
+            ContinueCommand = new DelegateCommand(Command_Continue);
+            SaveCommand = new DelegateCommand(Command_Save);
+            SaveAndExitCommand = new DelegateCommand(Command_SaveAndExit);
+            ExitCommand = new DelegateCommand(Command_Exit);
             _model.OnPieceDiesEvent += (o, e) =>
             {
                 object[] args = (object[])o;
@@ -37,7 +85,7 @@ namespace Tablut.ViewModel
                 ToVM.Piece = To.Piece;
                 ToVM.IsSelected = false;
             };
-            _model.OnBeforePieceSelectionChangedEvent += (o,e) =>
+            _model.OnBeforePieceSelectionChangedEvent += (o, e) =>
             {
                 Field f = _model.CurrentPlayer.SelectedPiece.Place;
                 FieldViewModel fvm = GetFieldViewModel(f.X, f.Y);
@@ -62,7 +110,7 @@ namespace Tablut.ViewModel
             };
             _model.OnDefenderWinsEvent += (o, e) =>
             {
-                
+
             };
             _model.OnAttackerWinsEvent += (o, e) =>
             {
@@ -80,15 +128,7 @@ namespace Tablut.ViewModel
             _model.OnUnpausedEvent += (o, e) =>
             {
             };
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    Fields.Add(CreateFieldViewModel(_model.Table.GetField(i, j)));
-                }
-            }
         }
-
         private FieldViewModel GetFieldViewModel(int X, int Y)
         {
             return Fields[X * 9 + Y];
@@ -105,6 +145,30 @@ namespace Tablut.ViewModel
             {
                 _model.StepOrSelect(field.X,field.Y);
             }
+        }
+
+        private void Command_Menu(object param)
+        {
+            IsInGameMenu = true;
+        }
+
+        private void Command_Continue(object param)
+        {
+            IsInGameMenu = false;
+        }
+
+        private void Command_Save(object param)
+        {
+        }
+
+        private void Command_SaveAndExit(object param)
+        {
+            OnPushState?.Invoke(new MainMenuViewModel());
+        }
+
+        private void Command_Exit(object param)
+        {
+            OnPushState?.Invoke(new MainMenuViewModel());
         }
     }
 }

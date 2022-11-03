@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.MainMenuPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BackgroundColor="SaddleBrown">
+            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
+                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+            </Frame>
+            <Button Text="{Binding NewGameText}" Command="{Binding NewGameCommand}"></Button>
+            <Button Text="{Binding LoadGameText}" Command="{Binding LoadGameCommand}"></Button>
+            <Button Text="{Binding ExitText}" Command="{Binding ExitCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

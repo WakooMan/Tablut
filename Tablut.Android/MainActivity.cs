@@ -5,6 +5,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 
+[assembly: Xamarin.Forms.Dependency(typeof(Tablut.Droid.AndroidHelper))]
+
 namespace Tablut.Droid
 {
     [Activity(Label = "Tablut", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]

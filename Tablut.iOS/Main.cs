@@ -5,6 +5,8 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
+[assembly: Xamarin.Forms.Dependency(typeof(Tablut.iOS.IOSHelper))]
+
 namespace Tablut.iOS
 {
     public class Application

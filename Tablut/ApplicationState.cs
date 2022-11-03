@@ -15,6 +15,7 @@ namespace Tablut
         {
             PageCtrForVMs.Add(typeof(GameViewModel), typeof(GamePage).GetConstructor(new Type[] { }));
             PageCtrForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage).GetConstructor(new Type[] { }));
+            PageCtrForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage).GetConstructor(new Type[] { }));
             Model = model;
             Page = (Page)PageCtrForVMs[Model.GetType()].Invoke(new object[] { });
         }

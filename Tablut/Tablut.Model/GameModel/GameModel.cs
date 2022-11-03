@@ -38,6 +38,8 @@ namespace Tablut.Model.GameModel
         public Player CurrentPlayer => currentPlayer;
         public Table Table => table;
         public IReadOnlyList<Field> AvailableFields => Table.AvailableFields(CurrentPlayer.SelectedPiece);
+        public string AttackerName => players[0].Name;
+        public string DefenderName => players[1].Name;
         public GameModel(string AttackerName, string DefenderName)
         {
             players[0] = new Player(AttackerName, PlayerSide.Attacker, table,new (int x, int y)[16] { (0,3),(0,4),(0,5),(1,4),(3,0),(4,0),(5,0),(4,1),(3,8),(4,8),(5,8),(4,7),(8,3),(8,4),(8,5),(7,4)},InvokeEvent);

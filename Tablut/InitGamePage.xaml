@@ -7,11 +7,14 @@
             <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
                 <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
             </Frame>
+            <Label Text="{Binding FileNameText}"></Label>
+            <Entry Text="{Binding FileName}"></Entry>
             <Label Text="{Binding P1Text}"></Label>
             <Entry Text="{Binding P1Name}"></Entry>
             <Label Text="{Binding P2Text}"></Label>
             <Entry Text="{Binding P2Name}"></Entry>
             <Button Text="{Binding StartText}" Command="{Binding StartCommand}"></Button>
+            <Button Text="{Binding BackText}" Command="{Binding BackCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

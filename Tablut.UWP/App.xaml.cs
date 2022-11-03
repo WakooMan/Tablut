@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+[assembly: Xamarin.Forms.Dependency(typeof(Tablut.UWP.WindowsHelper))]
+
 namespace Tablut.UWP
 {
     /// <summary>

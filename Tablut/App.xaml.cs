@@ -19,7 +19,7 @@ namespace Tablut
                 await _rootPage.Navigation.PushAsync(CurrentState.Page);
                 _rootPage.BindingContext = CurrentState.Model;
             });
-            CurrentState = new ApplicationState(new InitGameViewModel());
+            CurrentState = new ApplicationState(new MainMenuViewModel());
             _rootPage = new NavigationPage(CurrentState.Page);
             _rootPage.BindingContext = CurrentState.Model;
             MainPage = _rootPage;
