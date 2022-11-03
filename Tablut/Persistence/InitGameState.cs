@@ -8,8 +8,8 @@ namespace Tablut.Persistence
 {
     public class InitGameState: TablutState
     {
-        public InitGameState() { Model = new InitGameViewModel(); }
-        public InitGameState(InitGameViewModel model) { Model = model; }
+        public InitGameState(): base(new InitGameViewModel()) { }
+        public InitGameState(InitGameViewModel model) : base(model) { }
 
         protected override void OnRead(BinaryReader reader)
         {

@@ -8,6 +8,6 @@ namespace Tablut.Persistence
 {
     public class MainMenuState : TablutState
     {
-        public MainMenuState() { Model = new MainMenuViewModel(); }
+        public MainMenuState(): base(new MainMenuViewModel()) { }
     }
 }

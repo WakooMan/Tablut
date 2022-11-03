@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.GamePage">
-    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <StackLayout BackgroundColor="SaddleBrown" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
                 <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
             </Frame>
-            <Label Text="{Binding AttackerName}" TextColor="Green" FontSize="25" FontAttributes="Bold"></Label>
-            <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}">
+            <Label Text="{Binding AttackerName}" TextColor="Green" FontSize="20" FontAttributes="Bold"></Label>
+            <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                             Span="9" />
@@ -20,9 +20,16 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Text="{Binding DefenderName}" TextColor="Green" FontSize="25" FontAttributes="Bold"></Label>
+            <Label Text="{Binding DefenderName}" TextColor="Green" FontSize="20" FontAttributes="Bold"></Label>
             <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}"></Button>
         </StackLayout>
+        <ContentView 
+                IsVisible="{Binding IsInGameMenu}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Black"
+                Opacity="0.5">
+        </ContentView>
         <ContentView
                      IsVisible="{Binding IsInGameMenu}"
                      AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -30,7 +37,8 @@
             <StackLayout
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
-                        BackgroundColor="SaddleBrown">
+                         BackgroundColor="SaddleBrown"
+                         Opacity="1">
                 <Button Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
                 <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
                 <Button Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>

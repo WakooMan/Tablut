@@ -31,7 +31,7 @@ namespace Tablut.ViewModel
 
         private void Command_LoadGame(object obj)
         {
-            //OnPushState?.Invoke(new LoadGameViewModel());
+            OnPushState?.Invoke(new LoadGameViewModel());
         }
 
         private void Command_Exit(object obj)

@@ -4,9 +4,7 @@
              x:Class="Tablut.LoadGamePage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Button Text="{Binding LoadGameText}" Command="{Binding LoadGameCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

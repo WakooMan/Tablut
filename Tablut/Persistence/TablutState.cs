@@ -8,7 +8,12 @@ namespace Tablut.Persistence
 {
     public abstract class TablutState
     {
-        public ApplicationViewModel Model { get; protected set; } = null;
+        public ApplicationViewModel Model { get; protected set; }
+        protected TablutState(ApplicationViewModel model)
+        {
+            Model = model;
+        }
+
         public static TablutState Read(BinaryReader reader)
         {
             string typeName = reader.ReadString();

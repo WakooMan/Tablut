@@ -4,11 +4,12 @@ using Tablut.Model.GameModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly:Dependency(typeof(Tablut.Persistence.TablutPersistenceBinary))]
+
 namespace Tablut
 {
     public partial class App : Application
     {
-        private NavigationPage _rootPage;
         private ApplicationState CurrentState;
         public App()
         {
@@ -16,13 +17,10 @@ namespace Tablut
             ApplicationViewModel.SetOnPushState(async (viewModel) =>
             {
                 CurrentState.OnPushState(viewModel);
-                await _rootPage.Navigation.PushAsync(CurrentState.Page);
-                _rootPage.BindingContext = CurrentState.Model;
+                MainPage = CurrentState.Page;
             });
             CurrentState = new ApplicationState(new MainMenuViewModel());
-            _rootPage = new NavigationPage(CurrentState.Page);
-            _rootPage.BindingContext = CurrentState.Model;
-            MainPage = _rootPage;
+            MainPage = CurrentState.Page;
         }
        
 

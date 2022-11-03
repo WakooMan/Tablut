@@ -8,22 +8,25 @@ namespace Tablut
 {
     public class ApplicationState
     {
-        Dictionary<Type, ConstructorInfo> PageCtrForVMs = new Dictionary<Type, ConstructorInfo>();
+        Dictionary<Type, Type> PageCtrForVMs = new Dictionary<Type, Type>();
         public Page Page { get; private set; }
         public ApplicationViewModel Model { get; private set; }
         public ApplicationState(ApplicationViewModel model)
         {
-            PageCtrForVMs.Add(typeof(GameViewModel), typeof(GamePage).GetConstructor(new Type[] { }));
-            PageCtrForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage).GetConstructor(new Type[] { }));
-            PageCtrForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage).GetConstructor(new Type[] { }));
+            PageCtrForVMs.Add(typeof(GameViewModel), typeof(GamePage));
+            PageCtrForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage));
+            PageCtrForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage));
+            PageCtrForVMs.Add(typeof(LoadGameViewModel), typeof(LoadGamePage));
             Model = model;
-            Page = (Page)PageCtrForVMs[Model.GetType()].Invoke(new object[] { });
+            Page = (Page)Activator.CreateInstance(PageCtrForVMs[Model.GetType()]);
+            Page.BindingContext = Model;
         }
 
         public void OnPushState(ApplicationViewModel viewModel)
         {
             Model = viewModel;
-            Page = (Page)PageCtrForVMs[Model.GetType()].Invoke(new object[] { });
+            Page = (Page)Activator.CreateInstance(PageCtrForVMs[Model.GetType()]);
+            Page.BindingContext = Model;
         }
     }
 }

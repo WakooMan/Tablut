@@ -5,15 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tablut.Model.GameModel;
+using Tablut.Persistence;
+using Xamarin.Forms;
 
 namespace Tablut.ViewModel
 {
     public class GameViewModel: ApplicationViewModel
     {
-        private GameModel _model;
+        private readonly GameModel _model;
         private bool _isInGameMenu = false;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
+        public GameModel Model => _model;
         public string SaveFileName { get; }
 
         public string TitleText => "Tablut";
@@ -42,8 +45,6 @@ namespace Tablut.ViewModel
                 } 
             } 
         }
-        public string AttackerName => _model.AttackerName;
-        public string DefenderName => _model.DefenderName;
         public GameViewModel(GameModel model,string saveFileName)
         {
             _model = model;
@@ -124,9 +125,11 @@ namespace Tablut.ViewModel
             };
             _model.OnPausedEvent += (o, e) =>
             {
+                IsInGameMenu = true;
             };
             _model.OnUnpausedEvent += (o, e) =>
             {
+                IsInGameMenu = false;
             };
         }
         private FieldViewModel GetFieldViewModel(int X, int Y)
@@ -149,20 +152,22 @@ namespace Tablut.ViewModel
 
         private void Command_Menu(object param)
         {
-            IsInGameMenu = true;
+            _model.Pause();
         }
 
         private void Command_Continue(object param)
         {
-            IsInGameMenu = false;
+            _model.Unpause();
         }
 
-        private void Command_Save(object param)
+        private async void Command_Save(object param)
         {
+            await DependencyService.Get<ITablutPersistence>().SaveGameStateAsync(SaveFileName + ".tablut",new SaveGameState(this));
         }
 
         private void Command_SaveAndExit(object param)
         {
+            Command_Save(param);
             OnPushState?.Invoke(new MainMenuViewModel());
         }
 
