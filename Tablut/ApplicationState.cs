@@ -9,22 +9,22 @@ namespace Tablut
 {
     public class ApplicationState
     {
-        Dictionary<Type, Page> PageForVMs = new Dictionary<Type, Page>();
+        Dictionary<Type,Type> PageForVMs = new Dictionary<Type, Type>();
         Dictionary<Type, ConstructorInfo> AppStateForVMs = new Dictionary<Type, ConstructorInfo>();
         public Page Page { get; private set; }
         public ApplicationViewModel Model { get; private set; }
         public ApplicationState(ApplicationViewModel model)
         {
-            PageForVMs.Add(typeof(GameViewModel), new GamePage());
-            PageForVMs.Add(typeof(InitGameViewModel), new InitGamePage());
-            PageForVMs.Add(typeof(MainMenuViewModel), new MainMenuPage());
-            PageForVMs.Add(typeof(LoadGameViewModel), new LoadGamePage());
+            PageForVMs.Add(typeof(GameViewModel), typeof(GamePage));
+            PageForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage));
+            PageForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage));
+            PageForVMs.Add(typeof(LoadGameViewModel), typeof(LoadGamePage));
             AppStateForVMs.Add(typeof(GameViewModel), typeof(GameplayState).GetConstructor(new Type[] { typeof(GameViewModel)}));
             AppStateForVMs.Add(typeof(InitGameViewModel), typeof(InitGameState).GetConstructor(new Type[] { typeof(InitGameViewModel) }));
             AppStateForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuState).GetConstructor(new Type[] { typeof(MainMenuViewModel) }));
             AppStateForVMs.Add(typeof(LoadGameViewModel), typeof(LoadGameState).GetConstructor(new Type[] { typeof(LoadGameViewModel) }));
             Model = model;
-            Page = PageForVMs[Model.GetType()];
+            Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
         }
 
@@ -45,7 +45,7 @@ namespace Tablut
         public void OnPushState(ApplicationViewModel viewModel)
         {
             Model = viewModel;
-            Page = PageForVMs[Model.GetType()];
+            Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
         }
     }

@@ -12,22 +12,26 @@ namespace Tablut
     public partial class App : Application
     {
         private ApplicationState CurrentState;
+        private NavigationPage NavigationPage;
         public App()
         {
             InitializeComponent();
+            CurrentState = new ApplicationState(new MainMenuViewModel());
+            NavigationPage = new NavigationPage(CurrentState.Page);
+            MainPage = NavigationPage;
             ApplicationViewModel.SetOnPushState(async (viewModel) =>
             {
                 CurrentState.OnPushState(viewModel);
-                MainPage = CurrentState.Page;
+                await NavigationPage.PopToRootAsync();
+                NavigationPage.SetHasBackButton(CurrentState.Page, false);
+                await NavigationPage.PushAsync(CurrentState.Page);
             });
-            CurrentState = new ApplicationState(new MainMenuViewModel());
-            MainPage = CurrentState.Page;
         }
        
 
         protected override void OnStart()
         {
-            //Task.Run(() =>  CurrentState.LoadApplicationState());
+            Task.Run(() =>  CurrentState.LoadApplicationState());
         }
 
         protected override void OnSleep()
