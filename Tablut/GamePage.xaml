@@ -34,16 +34,23 @@
                      IsVisible="{Binding IsInGameMenu}"
                      AbsoluteLayout.LayoutBounds="0,0,1,1"
                      AbsoluteLayout.LayoutFlags="All">
-            <StackLayout
+            <ContentView.Content>
+                <Grid
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
-                         BackgroundColor="SaddleBrown"
-                         Opacity="1">
-                <Button Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
-                <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
-                <Button Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>
-                <Button Text="{Binding ExitText}" Command="{Binding ExitCommand}" Padding="10" Margin="10"></Button>
-            </StackLayout>
+                         BackgroundColor="SaddleBrown">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
+                    <Button Grid.Row="1" Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
+                    <Button Grid.Row="2" Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>
+                    <Button Grid.Row="3" Text="{Binding ExitText}" Command="{Binding ExitCommand}" Padding="10" Margin="10"></Button>
+                </Grid>
+            </ContentView.Content>
         </ContentView>
     </AbsoluteLayout>
 

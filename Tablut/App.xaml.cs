@@ -3,6 +3,7 @@ using Tablut.ViewModel;
 using Tablut.Model.GameModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 [assembly:Dependency(typeof(Tablut.Persistence.TablutPersistenceBinary))]
 
@@ -26,14 +27,17 @@ namespace Tablut
 
         protected override void OnStart()
         {
+            //Task.Run(() =>  CurrentState.LoadApplicationState());
         }
 
         protected override void OnSleep()
         {
+            Task.Run(() => CurrentState.SaveApplicationState());
         }
 
         protected override void OnResume()
         {
+            Task.Run(() => CurrentState.LoadApplicationState());
         }
     }
 }

@@ -8,38 +8,32 @@ namespace Tablut.Persistence
 {
     public class TablutPersistenceBinary : ITablutPersistence
     {
-        public async Task<TablutState> LoadGameStateAsync(string fileName)
+        public TablutState LoadGameState(string fileName)
         {
             try
             {
                 string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
                 TablutState state = null;
-                await Task.Run(() =>
+                using (FileStream stream = new FileStream(savePath, FileMode.Open))
+                using (BinaryReader reader = new BinaryReader(stream))
                 {
-                    using (FileStream stream = new FileStream(savePath, FileMode.Open))
-                    using (BinaryReader reader = new BinaryReader(stream))
-                    {
-                        state = TablutState.Read(reader);
-                    }
-                });
+                    state = TablutState.Read(reader);
+                }
                 return state;
             }
-            catch { return null; }
+            catch(Exception) { return null; }
         }
 
-        public async Task SaveGameStateAsync(string fileName,TablutState state)
+        public void SaveGameState(string fileName,TablutState state)
         {
             try
             {
                 string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
-                await Task.Run(() =>
+                using (FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+                using (BinaryWriter bw = new BinaryWriter(fs))
                 {
-                    using (FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write))
-                    using (BinaryWriter bw = new BinaryWriter(fs))
-                    {
-                        TablutState.Write(bw, state);
-                    }
-                });
+                    TablutState.Write(bw, state);
+                }
             }
             catch { }
         }

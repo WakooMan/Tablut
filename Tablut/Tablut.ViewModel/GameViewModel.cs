@@ -25,6 +25,8 @@ namespace Tablut.ViewModel
         public string SaveText => "Save Game";
         public string SaveAndExitText => "Save And Exit";
         public string ExitText => "Exit Game";
+        public string AttackerName => _model.Attacker.Name;
+        public string DefenderName => _model.Defender.Name;
         public DelegateCommand MenuCommand { get; private set; }
         public DelegateCommand ContinueCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
@@ -160,9 +162,9 @@ namespace Tablut.ViewModel
             _model.Unpause();
         }
 
-        private async void Command_Save(object param)
+        private void Command_Save(object param)
         {
-            await DependencyService.Get<ITablutPersistence>().SaveGameStateAsync(SaveFileName + ".tablut",new SaveGameState(this));
+            DependencyService.Get<ITablutPersistence>().SaveGameState(SaveFileName + ".tablut",new SaveGameState(this));
         }
 
         private void Command_SaveAndExit(object param)
