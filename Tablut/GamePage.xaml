@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.GamePage">
-    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <StackLayout BackgroundColor="SaddleBrown" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+    <StackLayout BackgroundColor="SaddleBrown">
             <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
                 <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
             </Frame>
@@ -23,35 +22,4 @@
             <Label Text="{Binding DefenderName}" TextColor="Green" FontSize="20" FontAttributes="Bold"></Label>
             <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}"></Button>
         </StackLayout>
-        <ContentView 
-                IsVisible="{Binding IsInGameMenu}"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Black"
-                Opacity="0.5">
-        </ContentView>
-        <ContentView
-                     IsVisible="{Binding IsInGameMenu}"
-                     AbsoluteLayout.LayoutBounds="0,0,1,1"
-                     AbsoluteLayout.LayoutFlags="All">
-            <ContentView.Content>
-                <Grid
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         BackgroundColor="SaddleBrown">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
-                    <Button Grid.Row="1" Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
-                    <Button Grid.Row="2" Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>
-                    <Button Grid.Row="3" Text="{Binding ExitText}" Command="{Binding ExitCommand}" Padding="10" Margin="10"></Button>
-                </Grid>
-            </ContentView.Content>
-        </ContentView>
-    </AbsoluteLayout>
-
 </ContentPage>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tablut.GameMenuPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="SaddleBrown" HorizontalOptions="Center" VerticalOptions="Center">
+            <Button Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" Padding="10" Margin="10"></Button>
+            <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" Padding="10" Margin="10"></Button>
+            <Button Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" Padding="10" Margin="10"></Button>
+            <Button Text="{Binding ExitText}" Command="{Binding ExitCommand}" Padding="10" Margin="10"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

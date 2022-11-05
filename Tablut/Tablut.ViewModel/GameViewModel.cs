@@ -13,7 +13,6 @@ namespace Tablut.ViewModel
     public class GameViewModel: ApplicationViewModel
     {
         private readonly GameModel _model;
-        private bool _isInGameMenu = false;
         public ObservableCollection<FieldViewModel> Fields { get; private set; } = new ObservableCollection<FieldViewModel>();
 
         public GameModel Model => _model;
@@ -32,21 +31,6 @@ namespace Tablut.ViewModel
         public DelegateCommand SaveCommand { get; private set; }
         public DelegateCommand SaveAndExitCommand { get; private set; }
         public DelegateCommand ExitCommand { get; private set; }
-        public bool IsInGameMenu 
-        { 
-            get 
-            { 
-                return _isInGameMenu; 
-            } 
-            private set 
-            { 
-                if (value != _isInGameMenu) 
-                {
-                    _isInGameMenu = value;
-                    OnPropertyChanged();
-                } 
-            } 
-        }
         public GameViewModel(GameModel model,string saveFileName)
         {
             _model = model;
@@ -127,11 +111,11 @@ namespace Tablut.ViewModel
             };
             _model.OnPausedEvent += (o, e) =>
             {
-                IsInGameMenu = true;
+                OnPushState(new GameMenuViewModel(new DelegateCommand(Command_Continue), new DelegateCommand(Command_Save), new DelegateCommand(Command_SaveAndExit), new DelegateCommand(Command_Exit)));
             };
             _model.OnUnpausedEvent += (o, e) =>
             {
-                IsInGameMenu = false;
+                OnPushState(this);
             };
         }
         private FieldViewModel GetFieldViewModel(int X, int Y)

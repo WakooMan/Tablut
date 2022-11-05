@@ -19,6 +19,7 @@ namespace Tablut
             PageForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage));
             PageForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage));
             PageForVMs.Add(typeof(LoadGameViewModel), typeof(LoadGamePage));
+            PageForVMs.Add(typeof(GameMenuViewModel), typeof(GameMenuPage));
             AppStateForVMs.Add(typeof(GameViewModel), typeof(GameplayState).GetConstructor(new Type[] { typeof(GameViewModel)}));
             AppStateForVMs.Add(typeof(InitGameViewModel), typeof(InitGameState).GetConstructor(new Type[] { typeof(InitGameViewModel) }));
             AppStateForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuState).GetConstructor(new Type[] { typeof(MainMenuViewModel) }));

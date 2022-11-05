@@ -31,7 +31,7 @@ namespace Tablut
 
         protected override void OnStart()
         {
-            Task.Run(() =>  CurrentState.LoadApplicationState());
+            //Task.Run(() =>  CurrentState.LoadApplicationState());
         }
 
         protected override void OnSleep()
