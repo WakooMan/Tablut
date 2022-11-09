@@ -26,6 +26,10 @@ namespace Tablut.ViewModel
         public string SaveAndExitText => "Save And Exit";
         public string ExitText => "Exit Game";
         public string AttackerName => _model.Attacker.Name;
+        public string AttackerText => "Attacker";
+        public string DefenderText => "Defender";
+        public string AttackerAttributes => (_model.Attacker == _model.CurrentPlayer) ?"Bold":"";
+        public string DefenderAttributes => (_model.Defender == _model.CurrentPlayer) ? "Bold" : "";
         public string DefenderName => _model.Defender.Name;
         public DelegateCommand MenuCommand { get; private set; }
         public DelegateCommand ContinueCommand { get; private set; }
