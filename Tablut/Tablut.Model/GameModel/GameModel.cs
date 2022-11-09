@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Tablut.Model.GameModel
 {
@@ -12,13 +13,15 @@ namespace Tablut.Model.GameModel
 
     public enum EventTypeFlag : uint
     {
-        OnPieceSteps = 1U,OnWrongStep = 2U,OnPieceDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPieceSelected = 32U,OnBeforePieceSelectionChanged = 64U
+        OnPieceSteps = 1U,OnWrongStep = 2U,OnPieceDies = 4U,OnDefenderWins = 8U,OnAttackerWins = 16U,OnPieceSelected = 32U,OnPieceSelectionChanged = 64U
     }
 
     public class GameModel
     {
-        public EventHandler OnAttackerWinsEvent, OnWrongStepEvent, OnPieceDiesEvent, OnDefenderWinsEvent, OnPieceStepsEvent, OnPieceSelectedEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent,OnBeforePieceSelectionChangedEvent;
-
+        public EventHandler OnAttackerWinsEvent, OnDefenderWinsEvent, OnPlayerTurnChangeEvent,OnPausedEvent,OnUnpausedEvent;
+        public EventHandler<PieceStepsArgs> OnPieceStepsEvent, OnWrongStepEvent;
+        public EventHandler<PieceDiesArgs> OnPieceDiesEvent;
+        public EventHandler<PieceSelectedArgs> OnPieceSelectedEvent,OnPieceSelectionChangedEvent;
         private readonly Dictionary<EventTypeFlag, MethodInfo> Events = new Dictionary<EventTypeFlag, MethodInfo>()
         {
             {EventTypeFlag.OnPieceSteps, typeof(GameModel).GetMethod(nameof(OnPieceSteps),BindingFlags.Instance | BindingFlags.NonPublic)},
@@ -27,8 +30,9 @@ namespace Tablut.Model.GameModel
             {EventTypeFlag.OnDefenderWins, typeof(GameModel).GetMethod(nameof(OnDefenderWins),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnAttackerWins, typeof(GameModel).GetMethod(nameof(OnAttackerWins),BindingFlags.Instance | BindingFlags.NonPublic)},
             {EventTypeFlag.OnPieceSelected, typeof(GameModel).GetMethod(nameof(OnPieceSelected),BindingFlags.Instance | BindingFlags.NonPublic)},
-            {EventTypeFlag.OnBeforePieceSelectionChanged, typeof(GameModel).GetMethod(nameof(OnBeforePieceSelectionChanged),BindingFlags.Instance | BindingFlags.NonPublic)}
+            {EventTypeFlag.OnPieceSelectionChanged, typeof(GameModel).GetMethod(nameof(OnPieceSelectionChanged),BindingFlags.Instance | BindingFlags.NonPublic)}
         };
+
         private Player currentPlayer;
         private Player[] players = new Player[2];
         private Table table = new Table();
@@ -90,9 +94,9 @@ namespace Tablut.Model.GameModel
             }
         }
 
-        private void OnPieceSteps(int oldx,int oldy,int x, int y)
+        private void OnPieceSteps(PieceStepsArgs args)
         {
-            OnPieceStepsEvent?.Invoke(new object[] { oldx,oldy,x,y}, new EventArgs());
+            OnPieceStepsEvent?.Invoke(this, args);
             currentPlayer = (currentPlayer == players[0]) ? players[1] : players[0];
             OnPlayerTurnChangeEvent?.Invoke(this, new EventArgs());
         }
@@ -109,28 +113,28 @@ namespace Tablut.Model.GameModel
             OnDefenderWinsEvent?.Invoke(this, new EventArgs());
         }
 
-        private void OnWrongStep()
+        private void OnWrongStep(PieceStepsArgs args)
         {
-            OnWrongStepEvent?.Invoke(this, new EventArgs());
+            OnWrongStepEvent?.Invoke(this, args);
         }
 
-        private void OnPieceDies(Player player,int x, int y)
+        private void OnPieceDies(PieceDiesArgs args)
         {
-            if (player.AlivePieces.Count() == 0 && player.Side == PlayerSide.Attacker)
+            if (args.Player.AlivePieces.Count() == 0 && args.Player.Side == PlayerSide.Attacker)
             {
                 InvokeEvent(EventTypeFlag.OnDefenderWins,new object[] { });
             }
-            OnPieceDiesEvent?.Invoke(new object[] { x,y }, new EventArgs());
+            OnPieceDiesEvent?.Invoke(this, args);
         }
 
-        private void OnPieceSelected()
+        private void OnPieceSelected(PieceSelectedArgs args)
         {
-            OnPieceSelectedEvent?.Invoke(this,new EventArgs());
+            OnPieceSelectedEvent?.Invoke(this,args);
         }
 
-        private void OnBeforePieceSelectionChanged()
+        private void OnPieceSelectionChanged(PieceSelectedArgs args)
         {
-            OnBeforePieceSelectionChangedEvent?.Invoke(this, new EventArgs());
+            OnPieceSelectionChangedEvent?.Invoke(this, args);
         }
     }
 }

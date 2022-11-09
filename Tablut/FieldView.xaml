@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tablut.FieldView"
+             BackgroundColor="Black"
+             x:Name="_cellFrame"
+             Padding="5"
+             BindingContext="{Binding Source={x:Reference _cellFrame}, Path=Cell}" >
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding StepOrSelectCommand}" CommandParameter="{Binding}" />
+    </Frame.GestureRecognizers>
+
+    <Frame.Triggers>
+        <DataTrigger TargetType="Frame" Binding="{Binding Field}" Value="Normal">
+            <Setter Property="BackgroundColor" Value="Black" />
+        </DataTrigger>
+        <DataTrigger TargetType="Frame" Binding="{Binding Field}" Value="Available">
+            <Setter Property="BackgroundColor" Value="ForestGreen" />
+        </DataTrigger>
+    </Frame.Triggers>
+    <Frame Padding="10" Margin="0" BackgroundColor="DarkOrange">
+        <Grid>
+        <Image Aspect="AspectFit">
+            <Image.Triggers>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="None">
+                    <Setter Property="Source" Value="" />
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedDefenderKing">
+                    <Setter Property="Source" Value="Resources/SelectedDefenderKing.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedDefenderSoldier">
+                    <Setter Property="Source" Value="Resources/SelectedDefenderSoldier.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedAttackerSoldier">
+                    <Setter Property="Source" Value="Resources/SelectedAttackerSoldier.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="DefenderSoldier">
+                    <Setter Property="Source" Value="Resources/DefenderSoldier.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="DefenderKing">
+                    <Setter Property="Source" Value="Resources/DefenderKing.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+                <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="AttackerSoldier">
+                    <Setter Property="Source" Value="Resources/AttackerSoldier.png" />
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Image.Triggers>
+        </Image>
+    </Grid>
+    </Frame>
+</Frame>

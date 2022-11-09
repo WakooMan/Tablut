@@ -42,18 +42,20 @@ namespace Tablut.Model.GameModel
             Field f = place.Table.GetField(x, y);
             if (!f.IsInvalid && f.Type != FieldType.Forbidden && place.Table.AvailableFields(this).Contains(f))
             {
-                InvokeEvent(EventTypeFlag.OnBeforePieceSelectionChanged, new object[] { });
+                Field oldSelectedField = place;
+                IReadOnlyList<Field> oldAvailableFields = place.Table.AvailableFields(this);
                 int oldx = place.X, oldy = place.Y;
                 this.place.Piece = null;
                 this.place = f;
                 this.place.Piece = this;
-                InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps,new object[] { oldx,oldy,Place.X,Place.Y });
+                InvokeEvent.Invoke(EventTypeFlag.OnPieceSteps, new object[] { new PieceStepsArgs(oldx, oldy, Place.X, Place.Y) });
+                InvokeEvent(EventTypeFlag.OnPieceSelectionChanged, new object[] { new PieceSelectedArgs(oldSelectedField,oldAvailableFields) });
                 OnStepped(this.place.X, this.Place.Y);
                 return true;
             }
             else
             {
-                InvokeEvent.Invoke(EventTypeFlag.OnWrongStep, new object[] { });
+                InvokeEvent.Invoke(EventTypeFlag.OnWrongStep, new object[] { new PieceStepsArgs(Place.X, Place.Y, x, y) });
                 return false;
             }
         }
@@ -62,7 +64,7 @@ namespace Tablut.Model.GameModel
 
         public virtual void Die()
         {
-            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { Player, Place.X, Place.Y });
+            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { new PieceDiesArgs(Player, Place.X, Place.Y) });
             IsAlive = false;
             place.Piece = null;
             place = Field.Invalid;

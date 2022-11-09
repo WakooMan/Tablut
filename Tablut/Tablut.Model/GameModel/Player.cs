@@ -47,10 +47,13 @@ namespace Tablut.Model.GameModel
             {
                 if (SelectedPiece != null)
                 {
-                    InvokeEvent(EventTypeFlag.OnBeforePieceSelectionChanged, new object[] { });
+                    Field OldSelectedField = SelectedPiece.Place;
+                    IReadOnlyList<Field> OldAvailableFields = SelectedPiece.Place.Table.AvailableFields(SelectedPiece);
+                    SelectedPiece = null;
+                    InvokeEvent(EventTypeFlag.OnPieceSelectionChanged, new object[] { new PieceSelectedArgs(OldSelectedField,OldAvailableFields)});
                 }
                 SelectedPiece = piece;
-                InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { });
+                InvokeEvent(EventTypeFlag.OnPieceSelected, new object[] { new PieceSelectedArgs(SelectedPiece.Place,SelectedPiece.Place.Table.AvailableFields(SelectedPiece))});
             }
             else
             {
@@ -58,12 +61,14 @@ namespace Tablut.Model.GameModel
                 {
                     if (SelectedPiece.TryStepToPlace(x, y))
                     {
+                        Field oldSelectedField = SelectedPiece.Place;
                         SelectedPiece = null;
+                        InvokeEvent(EventTypeFlag.OnPieceSelectionChanged, new object[] { new PieceSelectedArgs(oldSelectedField, new List<Field>()) });
                     }
                 }
                 else
                 {
-                    InvokeEvent(EventTypeFlag.OnWrongStep, new object[] { });
+                    InvokeEvent(EventTypeFlag.OnWrongStep, new object[] { new PieceStepsArgs(-1,-1,x,y)});
                 }
             }
         }

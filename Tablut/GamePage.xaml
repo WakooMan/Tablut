@@ -1,25 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tablut"
              x:Class="Tablut.GamePage">
-    <StackLayout BackgroundColor="SaddleBrown">
-            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
-                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+    <FlexLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"></RowDefinition>
+                <RowDefinition Height="80*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="Yellow" Padding="0" CornerRadius="0">
+                <StackLayout>
+                    <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+                    <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}" CommandParameter="{Binding}" BackgroundColor="SaddleBrown" TextColor="Yellow" FontAttributes="Bold"></Button>
+                </StackLayout>
             </Frame>
-            <Label Text="{Binding AttackerName}" TextColor="Green" FontSize="20" FontAttributes="Bold"></Label>
-            <CollectionView WidthRequest="400" HorizontalOptions="Center" ItemsSource="{Binding Fields}" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                            Span="9" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
+            <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fields}" BackgroundColor="SaddleBrown" Direction="Row" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap">
+                <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <ImageButton Source="{Binding ImageSource}" Command="{Binding StepOrSelectCommand}" CommandParameter="{Binding}">
-                        </ImageButton>
+                        <FlexLayout BindableLayout.ItemsSource="{Binding}" Direction="Column" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap"
+                                        FlexLayout.Grow="1000" >
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <local:FieldView FlexLayout.Grow="1000" FlexLayout.Shrink="0" FlexLayout.Basis="1" FlexLayout.AlignSelf="Stretch" Cell="{Binding}"></local:FieldView>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Label Text="{Binding DefenderName}" TextColor="Green" FontSize="20" FontAttributes="Bold"></Label>
-            <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}"></Button>
-        </StackLayout>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </Grid>
+    </FlexLayout>
 </ContentPage>

@@ -8,45 +8,22 @@ using Tablut.Model.GameModel;
 
 namespace Tablut.ViewModel
 {
+    public enum PieceType 
+    {
+        None, SelectedDefenderKing, SelectedDefenderSoldier, SelectedAttackerSoldier, DefenderSoldier, DefenderKing, AttackerSoldier
+    }
+
+    public enum FieldType
+    {
+        Normal, Available
+    }
     public class FieldViewModel : BindingSource
     {
         public readonly int X;
         public readonly int Y;
-        private bool _isSelected, _available;
-        private Piece _piece;
-        private string _imagesource;
-        public string ImageSource
-        {
-            get
-            {
-                return _imagesource;
-            }
-            private set 
-            {
-                if (_imagesource != value)
-                {
-                    _imagesource = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private void SetImageSource()
-        {
-            string imagesrc = "Field.png";
-            if (Piece != null)
-            {
-                imagesrc = ((Piece is King) ? "King" : "Soldier") + imagesrc;
-                imagesrc = ((Piece.Player.Side == PlayerSide.Attacker) ? "Attacker" : "Defender") + imagesrc;
-                imagesrc = ((IsSelected) ? "Selected" : "") + imagesrc;
-            }
-            else
-            {
-                imagesrc = ((Available) ? "Available" : "") + imagesrc;
-            }
-            imagesrc = "Resources/" + imagesrc;
-            ImageSource = imagesrc;
-        }
+        private FieldType _field;
+        private PieceType _piece;
+        
         private DelegateCommand _stepOrSelectCommand;
         public DelegateCommand StepOrSelectCommand 
         {
@@ -63,37 +40,23 @@ namespace Tablut.ViewModel
                 }
             }
         }
-        public bool IsSelected
+        
+        public FieldType Field
         {
             get
             {
-                return _isSelected;
+                return _field;
             }
             set
             {
-                if (_isSelected != value)
+                if (_field != value)
                 {
-                    _isSelected = value;
-                    SetImageSource();
-                }
-            } 
-        }
-        public bool Available
-        {
-            get
-            {
-                return _available;
-            }
-            set
-            {
-                if (_available != value)
-                {
-                    _available = value;
-                    SetImageSource();
+                    _field = value;
+                    OnPropertyChanged();
                 }
             }
         }
-        public Piece Piece 
+        public PieceType Piece 
         {
             get
             {
@@ -104,20 +67,18 @@ namespace Tablut.ViewModel
                 if (_piece != value)
                 {
                     _piece = value;
-                    SetImageSource();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public FieldViewModel(int x,int y,Piece piece,bool isSelected,bool available,DelegateCommand stepOrSelectCommand)
+        public FieldViewModel(int x,int y,PieceType piece,FieldType field,DelegateCommand stepOrSelectCommand)
         {
             X = x;
             Y = y;
             _piece = piece;
-            _isSelected = isSelected;
-            _available = available;
+            _field = field;
             StepOrSelectCommand = stepOrSelectCommand;
-            SetImageSource();
         }
     }
 }
