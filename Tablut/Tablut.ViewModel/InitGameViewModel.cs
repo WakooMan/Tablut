@@ -27,13 +27,12 @@ namespace Tablut.ViewModel
 
         private void Command_Start(object obj)
         {
-            GameViewModel model = new GameViewModel(new GameModel(P1Name, P2Name), FileName);
-            OnPushState?.Invoke(model);
+            OnPushState?.Invoke(new GameViewModel(new GameModel(P1Name, P2Name), FileName));
         }
 
         private void Command_Back(object obj)
         {
-            OnPushState?.Invoke(new MainMenuViewModel());
+            OnPopToRootState?.Invoke();
         }
     }
 }

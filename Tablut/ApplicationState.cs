@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Tablut.Persistence;
 using Tablut.ViewModel;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.GTKSpecific;
+using NavigationPage = Xamarin.Forms.NavigationPage;
 
 namespace Tablut
 {
@@ -12,6 +15,7 @@ namespace Tablut
         Dictionary<Type,Type> PageForVMs = new Dictionary<Type, Type>();
         Dictionary<Type, ConstructorInfo> AppStateForVMs = new Dictionary<Type, ConstructorInfo>();
         public Page Page { get; private set; }
+        public NavigationPage NavPage { get; }
         public ApplicationViewModel Model { get; private set; }
         public ApplicationState(ApplicationViewModel model)
         {
@@ -20,6 +24,7 @@ namespace Tablut
             PageForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage));
             PageForVMs.Add(typeof(LoadGameViewModel), typeof(LoadGamePage));
             PageForVMs.Add(typeof(GameMenuViewModel), typeof(GameMenuPage));
+            PageForVMs.Add(typeof(GameOverViewModel), typeof(GameOverPage));
             AppStateForVMs.Add(typeof(GameViewModel), typeof(GameplayState).GetConstructor(new Type[] { typeof(GameViewModel)}));
             AppStateForVMs.Add(typeof(InitGameViewModel), typeof(InitGameState).GetConstructor(new Type[] { typeof(InitGameViewModel) }));
             AppStateForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuState).GetConstructor(new Type[] { typeof(MainMenuViewModel) }));
@@ -27,27 +32,41 @@ namespace Tablut
             Model = model;
             Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
+            NavPage = new NavigationPage(Page);
         }
 
-        public void SaveApplicationState()
+        public async Task SaveApplicationState()
         {
-            DependencyService.Get<ITablutPersistence>().SaveGameState("save.dat", (TablutState)AppStateForVMs[Model.GetType()].Invoke(new object[] { Model }));
+            await DependencyService.Get<ITablutPersistence>().SaveGameState("save.dat", (TablutState)AppStateForVMs[Model.GetType()].Invoke(new object[] { Model }));
         }
 
-        public void LoadApplicationState()
+        public async Task LoadApplicationState()
         {
             TablutState state = DependencyService.Get<ITablutPersistence>().LoadGameState("save.dat");
             if (state != null)
             {
-                OnPushState(state.Model);
+                await OnPushState(state.Model);
             }
         }
 
-        public void OnPushState(ApplicationViewModel viewModel)
+        public async Task OnPushState(ApplicationViewModel viewModel)
         {
             Model = viewModel;
             Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
+            NavigationPage.SetHasBackButton(Page, false);
+            await NavPage.PushAsync(Page);
         }
+
+        public async Task OnPopState()
+        {
+            await NavPage.PopAsync();
+        }
+
+        public async Task OnPopToRootState()
+        {
+            await NavPage.PopToRootAsync();
+        }
+
     }
 }

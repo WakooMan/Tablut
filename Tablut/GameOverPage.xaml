@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tablut"
+             x:Class="Tablut.GameOverPage">
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <local:GameView BindingContext="{Binding Game}"></local:GameView>
+            <ContentView Opacity="0.5" BackgroundColor="Black" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All"></ContentView>
+            <Grid BackgroundColor="SaddleBrown" HorizontalOptions="Center" VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*"></RowDefinition>
+                    <RowDefinition Height="25*"></RowDefinition>
+                    <RowDefinition Height="25*"></RowDefinition>
+                    <RowDefinition Height="25*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="{Binding GameWinnerName}" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="Yellow"></Label>
+                <Label Grid.Row="1" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="Yellow" FontSize="Medium">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Side}" Value="Attacker">
+                            <Setter Property="Text" Value="Attacker Won!"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Side}" Value="Defender">
+                            <Setter Property="Text" Value="Defender Won!"></Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Label Grid.Row="2" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="Yellow" FontSize="Small">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Side}" Value="Attacker">
+                            <Setter Property="Text" Value="The King has been slained!"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Side}" Value="Defender">
+                            <Setter Property="Text" Value="The King escaped!"></Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Button Grid.Row="3" Text="{Binding MainMenuText}" Command="{Binding MainMenuCommand}" CommandParameter="{Binding}" FontAttributes="Bold" TextColor="Yellow" FontSize="Medium"></Button>
+            </Grid>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

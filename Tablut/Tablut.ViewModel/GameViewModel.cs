@@ -118,11 +118,11 @@ namespace Tablut.ViewModel
             };
             _model.OnDefenderWinsEvent += (o, e) =>
             {
-
+                OnPushState?.Invoke(new GameOverViewModel(DefenderName,this,PlayerSide.Defender));
             };
             _model.OnAttackerWinsEvent += (o, e) =>
             {
-
+                OnPushState?.Invoke(new GameOverViewModel(AttackerName,this,PlayerSide.Attacker));
             };
             _model.OnWrongStepEvent += (o, e) =>
             {
@@ -134,11 +134,11 @@ namespace Tablut.ViewModel
             };
             _model.OnPausedEvent += (o, e) =>
             {
-                OnPushState(Menu);
+                OnPushState?.Invoke(Menu);
             };
             _model.OnUnpausedEvent += (o, e) =>
             {
-                OnPushState(this);
+                OnPopState?.Invoke();
             };
         }
         private FieldViewModel GetFieldViewModel(int X, int Y)
@@ -177,12 +177,12 @@ namespace Tablut.ViewModel
         private void Command_SaveAndExit(object param)
         {
             Command_Save(param);
-            OnPushState?.Invoke(new MainMenuViewModel());
+            Command_Exit(param);
         }
 
         private void Command_Exit(object param)
         {
-            OnPushState?.Invoke(new MainMenuViewModel());
+            OnPopToRootState?.Invoke();
         }
 
         private PieceType ConvertToPieceType(Piece piece)

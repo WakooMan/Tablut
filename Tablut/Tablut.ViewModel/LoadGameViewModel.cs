@@ -27,7 +27,7 @@ namespace Tablut.ViewModel
 
         private void Command_Back(object param)
         {
-            OnPushState(new MainMenuViewModel());
+            OnPopToRootState?.Invoke();
         }
 
         private void Command_LoadGame(object param)

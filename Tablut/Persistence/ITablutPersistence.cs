@@ -7,7 +7,7 @@ namespace Tablut.Persistence
 {
     public interface ITablutPersistence
     {
-        void SaveGameState(string fileName,TablutState state);
+        Task SaveGameState(string fileName,TablutState state);
         TablutState LoadGameState(string filename);
     }
 }

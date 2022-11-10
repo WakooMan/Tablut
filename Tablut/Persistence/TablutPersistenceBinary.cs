@@ -24,7 +24,7 @@ namespace Tablut.Persistence
             catch(Exception) { return null; }
         }
 
-        public void SaveGameState(string fileName,TablutState state)
+        public Task SaveGameState(string fileName,TablutState state)
         {
             try
             {
@@ -34,8 +34,9 @@ namespace Tablut.Persistence
                 {
                     TablutState.Write(bw, state);
                 }
+                return Task.CompletedTask;
             }
-            catch { }
+            catch { return Task.CompletedTask; }
         }
     }
 }
