@@ -27,7 +27,8 @@ namespace Tablut.ViewModel
 
         private void Command_Start(object obj)
         {
-            OnPushState?.Invoke(new GameViewModel(new GameModel(P1Name,P2Name),FileName));
+            GameViewModel model = new GameViewModel(new GameModel(P1Name, P2Name), FileName);
+            OnPushState?.Invoke(model);
         }
 
         private void Command_Back(object obj)

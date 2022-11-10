@@ -9,9 +9,12 @@ namespace Tablut.ViewModel
     public class LoadGameViewModel : ApplicationViewModel
     {
         public string TitleText => "Load Game";
+        public string BackText => "Go Back To Menu";
+        public DelegateCommand BackCommand { get; }
         public ObservableCollection<SavedGameViewModel> SavedGames { get; } = new ObservableCollection<SavedGameViewModel>();
         public LoadGameViewModel()
         {
+            BackCommand = new DelegateCommand(Command_Back);
             string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             foreach (string filepath in Directory.GetFiles(path))
             {
@@ -20,6 +23,11 @@ namespace Tablut.ViewModel
                     SavedGames.Add(new SavedGameViewModel(Path.GetFileNameWithoutExtension(filepath),new DelegateCommand(Command_LoadGame)));
                 }
             }
+        }
+
+        private void Command_Back(object param)
+        {
+            OnPushState(new MainMenuViewModel());
         }
 
         private void Command_LoadGame(object param)

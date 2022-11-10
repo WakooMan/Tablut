@@ -3,18 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.InitGamePage">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="SaddleBrown">
-            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
-                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+        <Grid BackgroundColor="SaddleBrown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"></RowDefinition>
+                <RowDefinition Height="80*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="Yellow">
+                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="Header" FontAttributes="Bold"/>
             </Frame>
-            <Label Text="{Binding FileNameText}"></Label>
-            <Entry Text="{Binding FileName}"></Entry>
-            <Label Text="{Binding P1Text}"></Label>
-            <Entry Text="{Binding P1Name}"></Entry>
-            <Label Text="{Binding P2Text}"></Label>
-            <Entry Text="{Binding P2Name}"></Entry>
-            <Button Text="{Binding StartText}" Command="{Binding StartCommand}"></Button>
-            <Button Text="{Binding BackText}" Command="{Binding BackCommand}"></Button>
-        </StackLayout>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Text="{Binding FileNameText}"></Label>
+                <Entry Grid.Row="1" Text="{Binding FileName}" Margin="5"></Entry>
+                <Label Grid.Row="2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Text="{Binding P1Text}"></Label>
+                <Entry Grid.Row="3" Text="{Binding P1Name}" Margin="5"></Entry>
+                <Label Grid.Row="4" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Text="{Binding P2Text}"></Label>
+                <Entry Grid.Row="5" Text="{Binding P2Name}" Margin="5"></Entry>
+                <Button Grid.Row="6" Text="{Binding StartText}" Command="{Binding StartCommand}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium"></Button>
+                <Button Grid.Row="7" Text="{Binding BackText}" Command="{Binding BackCommand}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium"></Button>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

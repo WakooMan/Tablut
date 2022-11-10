@@ -3,19 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tablut.LoadGamePage">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="SaddleBrown">
-            <Frame BackgroundColor="Yellow" Padding="24" CornerRadius="0">
-                <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
+        <Grid BackgroundColor="SaddleBrown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"></RowDefinition>
+                <RowDefinition Height="70*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="Yellow">
+                <Label Text="{Binding TitleText}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="Header" FontAttributes="Bold"/>
             </Frame>
-            <ListView ItemsSource="{Binding SavedGames}">
+            <ListView Grid.Row="1" ItemsSource="{Binding SavedGames}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Button Text="{Binding FileName}" BackgroundColor="Brown" Command="{Binding LoadGameCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Text="{Binding FileName}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding LoadGameCommand}" CommandParameter="{Binding}"></Button>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+            <Button Grid.Row="2" Text="{Binding BackText}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding BackCommand}" CommandParameter="{Binding}"></Button>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

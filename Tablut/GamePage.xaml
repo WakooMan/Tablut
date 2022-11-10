@@ -2,47 +2,5 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tablut"
              x:Class="Tablut.GamePage">
-    <FlexLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20*"></RowDefinition>
-                    <RowDefinition Height="10*"></RowDefinition>
-                    <RowDefinition Height="70*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <StackLayout Grid.Row="0" BackgroundColor="Yellow">
-                    <Label Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="50" FontAttributes="Bold"/>
-                    <Button Text="{Binding MenuText}" Command="{Binding MenuCommand}" CommandParameter="{Binding}" BackgroundColor="SaddleBrown" TextColor="Yellow" FontAttributes="Bold"></Button>
-                </StackLayout>
-                <StackLayout Grid.Row="1" BackgroundColor="SaddleBrown">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50*"></RowDefinition>
-                            <RowDefinition Height="50*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <StackLayout Grid.Row="0">
-                            <Label Text="{Binding AttackerText}" FontAttributes="Bold" TextColor="Green" HorizontalOptions="Start"></Label>
-                            <Label Text="{Binding DefenderText}" FontAttributes="Bold" TextColor="Green" HorizontalOptions="End"></Label>
-                        </StackLayout>
-                        <StackLayout Grid.Row="1">
-                            <Label Text="{Binding AttackerName}" FontAttributes="{Binding AttackerAttributes}" TextColor="Green" HorizontalOptions="Start"></Label>
-                            <Label Text="{Binding DefenderName}" FontAttributes="{Binding DefenderAttributes}" TextColor="Green" HorizontalOptions="End"></Label>
-                        </StackLayout>
-                    </Grid>
-                </StackLayout>
-                <FlexLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding Fields}" BackgroundColor="SaddleBrown" Direction="Row" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <FlexLayout BindableLayout.ItemsSource="{Binding}" Direction="Column" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap"
-                                            FlexLayout.Grow="1000" >
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <local:FieldView FlexLayout.Grow="1000" FlexLayout.Shrink="0" FlexLayout.Basis="1" FlexLayout.AlignSelf="Stretch" Cell="{Binding}"></local:FieldView>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </FlexLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
-            </Grid>
-        </FlexLayout>
+    <local:GameView BindingContext="{Binding}"></local:GameView>
 </ContentPage>

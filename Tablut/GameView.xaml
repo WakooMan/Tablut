@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tablut"
+             x:Class="Tablut.GameView"
+             BackgroundColor="SaddleBrown">
+    <FlexLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="70*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" BackgroundColor="Yellow">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"></RowDefinition>
+                    <RowDefinition Height="50*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="{Binding TitleText}" HorizontalTextAlignment="Center" TextColor="SaddleBrown" FontSize="Header" FontAttributes="Bold"/>
+                <Button Grid.Row="1" Text="{Binding MenuText}" Command="{Binding MenuCommand}" Margin="5" CommandParameter="{Binding}" BackgroundColor="SaddleBrown" TextColor="Yellow" FontSize="Medium" FontAttributes="Bold"></Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"></RowDefinition>
+                    <RowDefinition Height="50*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding AttackerText}" FontAttributes="Bold" FontSize="Medium" TextColor="Black" VerticalOptions="Start" HorizontalOptions="Start">
+                </Label>
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DefenderText}" FontAttributes="Bold" TextColor="White" FontSize="Medium" VerticalOptions="Start" HorizontalOptions="End">
+                </Label>
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding AttackerName}" FontSize="Medium" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding AttackerAttribute}" Value="None">
+                            <Setter Property="FontAttributes" Value="None"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding AttackerAttribute}" Value="Bold">
+                            <Setter Property="FontAttributes" Value="Bold"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding AttackerAttribute}" Value="Italic">
+                            <Setter Property="FontAttributes" Value="Italic"></Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DefenderName}" FontSize="Medium" TextColor="White" VerticalOptions="Center" HorizontalOptions="End">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding DefenderAttribute}" Value="None">
+                            <Setter Property="FontAttributes" Value="None"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding DefenderAttribute}" Value="Bold">
+                            <Setter Property="FontAttributes" Value="Bold"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding DefenderAttribute}" Value="Italic">
+                            <Setter Property="FontAttributes" Value="Italic"></Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Grid>
+            <FlexLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding Fields}" BackgroundColor="SaddleBrown" Direction="Row" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <FlexLayout BindableLayout.ItemsSource="{Binding}" Direction="Column" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" AlignItems="Stretch" AlignContent="Stretch" Wrap="NoWrap"
+                                                FlexLayout.Grow="1000" >
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <local:FieldView FlexLayout.Grow="1000" FlexLayout.Shrink="0" FlexLayout.Basis="1" FlexLayout.AlignSelf="Stretch" Cell="{Binding}"></local:FieldView>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </Grid>
+    </FlexLayout>
+</ContentView>

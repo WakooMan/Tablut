@@ -10,6 +10,7 @@ using Xamarin.Forms;
 
 namespace Tablut.ViewModel
 {
+    public enum Attribute { Bold,Italic,None}
     public class GameViewModel: ApplicationViewModel
     {
         private readonly GameModel _model;
@@ -24,14 +25,47 @@ namespace Tablut.ViewModel
         public string AttackerName => _model.Attacker.Name;
         public string AttackerText => "Attacker";
         public string DefenderText => "Defender";
-        public string AttackerAttributes => (_model.Attacker == _model.CurrentPlayer) ?"Bold":"";
-        public string DefenderAttributes => (_model.Defender == _model.CurrentPlayer) ? "Bold" : "";
+        private Attribute _attackerAttribute;
+        private Attribute _defenderAttribute;
+        public Attribute AttackerAttribute
+        {
+            get 
+            {
+                return _attackerAttribute;
+            }
+            set 
+            {
+                if (value != _attackerAttribute)
+                {
+                    _attackerAttribute = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Attribute DefenderAttribute
+        {
+            get
+            {
+                return _defenderAttribute;
+            }
+            set
+            {
+                if (value != _defenderAttribute)
+                {
+                    _defenderAttribute = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public string DefenderName => _model.Defender.Name;
         public DelegateCommand MenuCommand { get; private set; }
 
         public GameViewModel(GameModel model,string saveFileName)
         {
             _model = model;
+            AttackerAttribute = (_model.CurrentPlayer == _model.Attacker) ?Attribute.Bold:Attribute.None;
+            DefenderAttribute = (_model.CurrentPlayer == _model.Defender) ? Attribute.Bold : Attribute.None;
             SaveFileName = saveFileName;
             Menu = new GameMenuViewModel(this, new DelegateCommand(Command_Continue), new DelegateCommand(Command_Save), new DelegateCommand(Command_SaveAndExit), new DelegateCommand(Command_Exit));
             Initialize();
@@ -95,6 +129,8 @@ namespace Tablut.ViewModel
             };
             _model.OnPlayerTurnChangeEvent += (o, e) =>
             {
+                AttackerAttribute = (_model.CurrentPlayer == _model.Attacker) ? Attribute.Bold : Attribute.None;
+                DefenderAttribute = (_model.CurrentPlayer == _model.Defender) ? Attribute.Bold : Attribute.None;
             };
             _model.OnPausedEvent += (o, e) =>
             {
