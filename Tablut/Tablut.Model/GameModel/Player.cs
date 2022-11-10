@@ -21,7 +21,7 @@ namespace Tablut.Model.GameModel
         public IEnumerable<Piece> Pieces => pieces;
         public IEnumerable<Piece> AlivePieces => pieces.Where(p => p.IsAlive);
         public IEnumerable<Piece> DeadPieces => pieces.Where(p => !p.IsAlive);
-        public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent)
+        public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent,bool HasKing = true)
         {
             this.InvokeEvent = InvokeEvent;
             this.name = name;
@@ -29,7 +29,7 @@ namespace Tablut.Model.GameModel
             pieces = new Piece[values.Length];
             for (int i = 0; i < values.Length; i++)
             {
-                if (this.side == PlayerSide.Defender && i == 0)
+                if (this.side == PlayerSide.Defender && i == 0 && HasKing)
                 {
                     pieces[i] = new King(table.GetField(values[i].x, values[i].y), this,InvokeEvent);
                 }

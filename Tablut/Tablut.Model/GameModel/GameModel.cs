@@ -51,10 +51,10 @@ namespace Tablut.Model.GameModel
             currentPlayer = players[1];
         }
 
-        public GameModel(string AttackerName, string DefenderName,(int x,int y)[] AttackerValues, (int x, int y)[] DefenderValues,PlayerSide side,int selectedPieceX = -1,int selectedPieceY = -1,GameState state = GameState.Playing)
+        public GameModel(string AttackerName, string DefenderName,(int x,int y)[] AttackerValues, (int x, int y)[] DefenderValues,PlayerSide side,int selectedPieceX = -1,int selectedPieceY = -1,GameState state = GameState.Playing,bool HasKing = true)
         {
             players[0] = new Player(AttackerName, PlayerSide.Attacker, table, AttackerValues,InvokeEvent);
-            players[1] = new Player(DefenderName, PlayerSide.Defender, table, DefenderValues, InvokeEvent);
+            players[1] = new Player(DefenderName, PlayerSide.Defender, table, DefenderValues, InvokeEvent,HasKing);
             currentPlayer = players[(int)side];
             if (selectedPieceX >= 0 && selectedPieceX < 9 && selectedPieceY >= 0 && selectedPieceY < 9)
             {

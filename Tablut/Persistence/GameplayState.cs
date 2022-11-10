@@ -31,6 +31,7 @@ namespace Tablut.Persistence
                 attackerValues[i] = (x, y);
             }
             int defendercount = reader.ReadInt32();
+            bool HasKing = reader.ReadBoolean();
             (int x, int y)[] defenderValues = new (int x, int y)[defendercount];
             for (int i = 0; i < defendercount; i++)
             {
@@ -48,7 +49,7 @@ namespace Tablut.Persistence
                 selectedPieceY = reader.ReadInt32();
             }
             GameState state = (GameState)reader.ReadInt32();
-            GameModel gameModel = new GameModel(attackerName, defenderName, attackerValues, defenderValues, side,selectedPieceX,selectedPieceY,state);
+            GameModel gameModel = new GameModel(attackerName, defenderName, attackerValues, defenderValues, side,selectedPieceX,selectedPieceY,state,HasKing);
             Model = new GameViewModel(gameModel, saveFileName);
         }
 
@@ -67,9 +68,14 @@ namespace Tablut.Persistence
                 writer.Write(piece.Place.Y);
             }
             writer.Write(gameModel.Defender.AlivePieces.Count());
-            Piece king = gameModel.Defender.AlivePieces.Where(p => p is King).Single();
-            writer.Write(king.Place.X);
-            writer.Write(king.Place.Y);
+            Piece king = gameModel.Defender.AlivePieces.Where(p => p is King).SingleOrDefault();
+            bool HasKing = king != null;
+            writer.Write(HasKing);
+            if (HasKing)
+            {
+                writer.Write(king.Place.X);
+                writer.Write(king.Place.Y);
+            }
             foreach (Piece piece in gameModel.Defender.AlivePieces.Where(p => p is Soldier))
             {
                 writer.Write(piece.Place.X);
