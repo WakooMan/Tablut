@@ -14,17 +14,13 @@ namespace Tablut.ViewModel
     {
         private readonly GameModel _model;
         private readonly FieldViewModel[][] _fields = new FieldViewModel[9][];
+        private readonly GameMenuViewModel Menu;
         public FieldViewModel[][] Fields => _fields;
 
         public GameModel Model => _model;
         public string SaveFileName { get; }
-
         public string TitleText => "Tablut";
         public string MenuText => "Game Menu";
-        public string ContinueText => "Continue Game";
-        public string SaveText => "Save Game";
-        public string SaveAndExitText => "Save And Exit";
-        public string ExitText => "Exit Game";
         public string AttackerName => _model.Attacker.Name;
         public string AttackerText => "Attacker";
         public string DefenderText => "Defender";
@@ -32,14 +28,12 @@ namespace Tablut.ViewModel
         public string DefenderAttributes => (_model.Defender == _model.CurrentPlayer) ? "Bold" : "";
         public string DefenderName => _model.Defender.Name;
         public DelegateCommand MenuCommand { get; private set; }
-        public DelegateCommand ContinueCommand { get; private set; }
-        public DelegateCommand SaveCommand { get; private set; }
-        public DelegateCommand SaveAndExitCommand { get; private set; }
-        public DelegateCommand ExitCommand { get; private set; }
+
         public GameViewModel(GameModel model,string saveFileName)
         {
             _model = model;
             SaveFileName = saveFileName;
+            Menu = new GameMenuViewModel(this, new DelegateCommand(Command_Continue), new DelegateCommand(Command_Save), new DelegateCommand(Command_SaveAndExit), new DelegateCommand(Command_Exit));
             Initialize();
             for (int i = 0; i < 9; i++)
             {
@@ -54,10 +48,6 @@ namespace Tablut.ViewModel
         private void Initialize()
         {
             MenuCommand = new DelegateCommand(Command_Menu);
-            ContinueCommand = new DelegateCommand(Command_Continue);
-            SaveCommand = new DelegateCommand(Command_Save);
-            SaveAndExitCommand = new DelegateCommand(Command_SaveAndExit);
-            ExitCommand = new DelegateCommand(Command_Exit);
             _model.OnPieceDiesEvent += (o, e) =>
             {
                 FieldViewModel fVM = GetFieldViewModel(e.X, e.Y);
@@ -108,7 +98,7 @@ namespace Tablut.ViewModel
             };
             _model.OnPausedEvent += (o, e) =>
             {
-                OnPushState(new GameMenuViewModel(new DelegateCommand(Command_Continue), new DelegateCommand(Command_Save), new DelegateCommand(Command_SaveAndExit), new DelegateCommand(Command_Exit)));
+                OnPushState(Menu);
             };
             _model.OnUnpausedEvent += (o, e) =>
             {
