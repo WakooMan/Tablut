@@ -13,6 +13,8 @@ namespace Tablut.Persistence
         public GameplayState(): base(null) { }
 
         public GameplayState(GameViewModel model): base(model) { }
+        public GameplayState(GameMenuViewModel model) : base(model.Game) { }
+        public GameplayState(GameOverViewModel model) : base(model.Game) { }
 
         protected override void OnRead(BinaryReader reader)
         {
@@ -36,22 +38,18 @@ namespace Tablut.Persistence
                 int y = reader.ReadInt32();
                 defenderValues[i] = (x, y);
             }
-            GameModel gameModel = new GameModel(attackerName, defenderName, attackerValues, defenderValues, side);
-            Model = new GameViewModel(gameModel, saveFileName);
 
             bool HasSelectedPiece = reader.ReadBoolean();
-            if (HasSelectedPiece)
+            int selectedPieceX = -1;
+            int selectedPieceY = -1;
+            if(HasSelectedPiece)
             {
-                int selectedPieceX = reader.ReadInt32();
-                int selectedPieceY = reader.ReadInt32();
-                gameModel.StepOrSelect(selectedPieceX, selectedPieceY);
+                selectedPieceX = reader.ReadInt32();
+                selectedPieceY = reader.ReadInt32();
             }
-
             GameState state = (GameState)reader.ReadInt32();
-            if (state == GameState.Paused)
-            {
-                gameModel.Pause();
-            }
+            GameModel gameModel = new GameModel(attackerName, defenderName, attackerValues, defenderValues, side,selectedPieceX,selectedPieceY,state);
+            Model = new GameViewModel(gameModel, saveFileName);
         }
 
         protected override void OnWrite(BinaryWriter writer)

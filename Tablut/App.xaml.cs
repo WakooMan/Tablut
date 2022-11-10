@@ -32,19 +32,19 @@ namespace Tablut
         }
        
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
-            //Task.Run(() =>  CurrentState.LoadApplicationState());
+            await CurrentState.LoadApplicationState();
         }
 
-        protected override void OnSleep()
+        protected async override void OnSleep()
         {
-            Task.Run(() => CurrentState.SaveApplicationState());
+            await CurrentState.SaveApplicationState();
         }
 
-        protected override void OnResume()
+        protected async override void OnResume()
         {
-            Task.Run(() => CurrentState.LoadApplicationState());
+            await CurrentState.LoadApplicationState();
         }
     }
 }

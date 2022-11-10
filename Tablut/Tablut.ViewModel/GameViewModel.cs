@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace Tablut.ViewModel
             AttackerAttribute = (_model.CurrentPlayer == _model.Attacker) ?Attribute.Bold:Attribute.None;
             DefenderAttribute = (_model.CurrentPlayer == _model.Defender) ? Attribute.Bold : Attribute.None;
             SaveFileName = saveFileName;
-            Menu = new GameMenuViewModel(this, new DelegateCommand(Command_Continue), new DelegateCommand(Command_Save), new DelegateCommand(Command_SaveAndExit), new DelegateCommand(Command_Exit));
+            Menu = new GameMenuViewModel(this);
             Initialize();
             for (int i = 0; i < 9; i++)
             {
@@ -118,10 +119,20 @@ namespace Tablut.ViewModel
             };
             _model.OnDefenderWinsEvent += (o, e) =>
             {
+                string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SaveFileName + ".tablut");
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
                 OnPushState?.Invoke(new GameOverViewModel(DefenderName,this,PlayerSide.Defender));
             };
             _model.OnAttackerWinsEvent += (o, e) =>
             {
+                string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SaveFileName + ".tablut");
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
                 OnPushState?.Invoke(new GameOverViewModel(AttackerName,this,PlayerSide.Attacker));
             };
             _model.OnWrongStepEvent += (o, e) =>
@@ -162,27 +173,6 @@ namespace Tablut.ViewModel
         private void Command_Menu(object param)
         {
             _model.Pause();
-        }
-
-        private void Command_Continue(object param)
-        {
-            _model.Unpause();
-        }
-
-        private void Command_Save(object param)
-        {
-            DependencyService.Get<ITablutPersistence>().SaveGameState(SaveFileName + ".tablut",new SaveGameState(this));
-        }
-
-        private void Command_SaveAndExit(object param)
-        {
-            Command_Save(param);
-            Command_Exit(param);
-        }
-
-        private void Command_Exit(object param)
-        {
-            OnPopToRootState?.Invoke();
         }
 
         private PieceType ConvertToPieceType(Piece piece)

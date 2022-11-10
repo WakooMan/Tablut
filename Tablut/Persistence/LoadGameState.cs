@@ -10,5 +10,9 @@ namespace Tablut.Persistence
         public LoadGameState() : base(new LoadGameViewModel())
         {
         }
+
+        public LoadGameState(LoadGameViewModel model) : base(model)
+        {
+        }
     }
 }

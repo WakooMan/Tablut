@@ -33,13 +33,34 @@ namespace Tablut.ViewModel
         public DelegateCommand ExitCommand { get; }
         public GameViewModel Game { get; }
 
-        public GameMenuViewModel(GameViewModel game,DelegateCommand continueCommand, DelegateCommand saveCommand, DelegateCommand saveAndExitCommand, DelegateCommand exitCommand)
+        public GameMenuViewModel(GameViewModel game)
         {
-            ContinueCommand = continueCommand;
-            SaveCommand = saveCommand;
-            SaveAndExitCommand = saveAndExitCommand;
-            ExitCommand = exitCommand;
+            ContinueCommand = new DelegateCommand(Command_Continue);
+            SaveCommand = new DelegateCommand(Command_Save);
+            SaveAndExitCommand = new DelegateCommand(Command_SaveAndExit);
+            ExitCommand = new DelegateCommand(Command_Exit);
             Game = game;
+        }
+
+        private void Command_Continue(object param)
+        {
+            Game.Model.Unpause();
+        }
+
+        private void Command_Save(object param)
+        {
+            DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
+        }
+
+        private void Command_SaveAndExit(object param)
+        {
+            Command_Save(param);
+            Command_Exit(param);
+        }
+
+        private void Command_Exit(object param)
+        {
+            OnPopToRootState?.Invoke();
         }
     }
 }

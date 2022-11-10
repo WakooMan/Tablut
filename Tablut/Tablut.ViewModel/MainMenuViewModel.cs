@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Tablut.DI;
 using Xamarin.Forms;
@@ -36,6 +37,11 @@ namespace Tablut.ViewModel
 
         private void Command_Exit(object obj)
         {
+            string savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "save.dat");
+            if (File.Exists(savePath))
+            {
+                File.Delete(savePath);
+            }
             DependencyService.Get<INativeHelper>()?.CloseApplication();
         }
 
