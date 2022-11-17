@@ -7,8 +7,6 @@ using Tablut.Model.GameModel;
 using Tablut.Persistence;
 using Tablut.ViewModel;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.GTKSpecific;
-using NavigationPage = Xamarin.Forms.NavigationPage;
 
 namespace Tablut
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Tablut.Model.GameModel;
-using Tablut.Persistence;
 using Xamarin.Forms;
 
 namespace Tablut.ViewModel
@@ -47,15 +46,15 @@ namespace Tablut.ViewModel
             Game.Model.Unpause();
         }
 
-        private async void Command_Save(object param)
+        private void Command_Save(object param)
         {
-            await DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
+            SaveGame?.Invoke(Game.SaveFileName + ".tablut",new SavingGameViewModel(Game));
             Command_Continue(param);
         }
 
-        private async void Command_SaveAndExit(object param)
+        private void Command_SaveAndExit(object param)
         {
-            await DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
+            SaveGame?.Invoke(Game.SaveFileName + ".tablut", new SavingGameViewModel(Game));
             Command_Exit(param);
         }
 

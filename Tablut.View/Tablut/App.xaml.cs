@@ -5,6 +5,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
 using System.IO;
+using Tablut.DI;
+using Tablut.Persistence;
+using Tablut.Persistence.Persistence;
 
 [assembly:Dependency(typeof(Tablut.Persistence.TablutPersistenceBinary))]
 
@@ -16,6 +19,10 @@ namespace Tablut
         public App()
         {
             InitializeComponent();
+            ApplicationViewModel.ExitGame = () => DependencyService.Get<INativeHelper>()?.CloseApplication();
+            ApplicationViewModel.LoadGame = (filename) => (DependencyService.Get<ITablutPersistence>().LoadGameState(filename)).Result.Model;
+            ApplicationViewModel.SaveGame = (filename, viewmodel) => DependencyService.Get<ITablutPersistence>().SaveGameState(filename, TablutStateFactory.Create(viewmodel));
+
             CurrentState = new ApplicationState(page => MainPage = page,new MainMenuViewModel());
             ApplicationViewModel.SetOnPushState((viewModel) =>
             {

@@ -1,6 +1,4 @@
-﻿using Tablut.Persistence;
-using Xamarin.Forms;
-
+﻿
 namespace Tablut.ViewModel
 {
     public class SavedGameViewModel: BindingSource

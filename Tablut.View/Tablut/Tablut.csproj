@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Tablut.Model\Tablut.Model.csproj" />
+    <ProjectReference Include="..\..\Tablut.Persistence\Tablut.Persistence\Tablut.Persistence.csproj" />
+    <ProjectReference Include="..\..\Tablut.ViewModel\Tablut.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
@@ -46,19 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="AttackerSoldier.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="DefenderKing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="DefenderSoldier.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="SelectedAttackerSoldier.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SelectedDefenderKing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SelectedDefenderSoldier.png">

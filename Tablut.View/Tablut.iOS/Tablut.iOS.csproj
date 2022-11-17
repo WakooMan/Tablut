@@ -129,6 +129,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Tablut.Persistence\Tablut.Persistence\Tablut.Persistence.csproj">
+      <Project>{83FE0E8E-EAAE-4311-B404-7C4ACE28CC36}</Project>
+      <Name>Tablut.Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tablut\Tablut.csproj">
       <Project>{0BE70A92-3B1F-4779-BA73-474F9A3CDFC3}</Project>
       <Name>Tablut</Name>

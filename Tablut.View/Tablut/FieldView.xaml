@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:tablut="clr-namespace:Tablut"
+       x:Class="Tablut.FieldView"
+             BackgroundColor="Black"
+             x:Name="_cellFrame"
+             Padding="5"
+             BindingContext="{Binding Source={x:Reference _cellFrame}, Path=Cell}">
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding StepOrSelectCommand}" CommandParameter="{Binding}" />
+    </Frame.GestureRecognizers>
+
+    <Frame.Triggers>
+        <DataTrigger TargetType="Frame" Binding="{Binding Field}" Value="Normal">
+            <Setter Property="BackgroundColor" Value="Black" />
+        </DataTrigger>
+        <DataTrigger TargetType="Frame" Binding="{Binding Field}" Value="Available">
+            <Setter Property="BackgroundColor" Value="ForestGreen" />
+        </DataTrigger>
+    </Frame.Triggers>
+    <Frame Padding="10" Margin="0" BackgroundColor="DarkOrange">
+        <Grid>
+            <tablut:PieceView PieceType="{Binding Piece}"></tablut:PieceView>
+        </Grid>
+    </Frame>
+</Frame>

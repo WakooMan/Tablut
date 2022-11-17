@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using Tablut.Persistence;
 using Xamarin.Forms;
 
 namespace Tablut.ViewModel
@@ -30,11 +29,11 @@ namespace Tablut.ViewModel
             OnPushState?.Invoke(new MainMenuViewModel());
         }
 
-        private async void Command_LoadGame(object param)
+        private void Command_LoadGame(object param)
         {
             SavedGameViewModel model = param as SavedGameViewModel;
-            TablutState state = await DependencyService.Get<ITablutPersistence>().LoadGameState(model.FileName + ".tablut");
-            OnPushState?.Invoke(state.Model);
+            ApplicationViewModel newmodel = LoadGame?.Invoke(model.FileName + ".tablut");
+            OnPushState?.Invoke(newmodel);
         }
     }
 }

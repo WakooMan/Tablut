@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Tablut.Model.GameModel;
+using Xamarin.Forms;
 
 namespace Tablut.ViewModel
 {
     public class InitGameViewModel: ApplicationViewModel
     {
+        public List<string> SavedGames;
         public string TitleText => "Tablut";
         public string P1Text => "Attacker Player";
         public string P2Text => "Defender Player";
@@ -125,6 +127,15 @@ namespace Tablut.ViewModel
         }
         public InitGameViewModel()
         {
+            SavedGames = new List<string>();
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            foreach (string filepath in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(filepath) == ".tablut")
+                {
+                    SavedGames.Add(Path.GetFileNameWithoutExtension(filepath));
+                }
+            }
             StartCommand = new DelegateCommand(Command_Start);
             BackCommand = new DelegateCommand(Command_Back);
         }
@@ -145,6 +156,11 @@ namespace Tablut.ViewModel
             else if (FileName.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
             {
                 FileNameError = "The given filename contains invalid filename characters.";
+                HasFileNameError = true;
+            }
+            else if (SavedGames.Contains(FileName))
+            {
+                FileNameError = "The given filename is used already.";
                 HasFileNameError = true;
             }
             if (string.IsNullOrEmpty(P1Name))

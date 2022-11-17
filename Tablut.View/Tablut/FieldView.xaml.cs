@@ -13,7 +13,7 @@ namespace Tablut
     public partial class FieldView : Frame
     {
         public static readonly BindableProperty CellProperty = BindableProperty.Create("Cell",typeof(FieldViewModel),typeof(FieldView),null,BindingMode.OneWay);
-        
+
         public FieldViewModel Cell 
         {
             get => GetValue(CellProperty) as FieldViewModel;

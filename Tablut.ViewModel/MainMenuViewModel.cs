@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Tablut.DI;
 using Xamarin.Forms;
 
 namespace Tablut.ViewModel
@@ -42,7 +41,7 @@ namespace Tablut.ViewModel
             {
                 File.Delete(savePath);
             }
-            DependencyService.Get<INativeHelper>()?.CloseApplication();
+            ExitGame?.Invoke();
         }
 
     }

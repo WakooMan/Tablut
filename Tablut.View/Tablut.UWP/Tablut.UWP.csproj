@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FieldUWPRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -105,9 +106,15 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AttackerSoldier.png" />
+    <Content Include="Assets\DefenderKing.png" />
+    <Content Include="Assets\DefenderSoldier.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\SelectedAttackerSoldier.png" />
+    <Content Include="Assets\SelectedDefenderKing.png" />
+    <Content Include="Assets\SelectedDefenderSoldier.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-200.png" />
     <Content Include="Assets\SmallTile.scale-400.png" />
@@ -150,6 +157,14 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Tablut.Persistence\Tablut.Persistence\Tablut.Persistence.csproj">
+      <Project>{83FE0E8E-EAAE-4311-B404-7C4ACE28CC36}</Project>
+      <Name>Tablut.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tablut.ViewModel\Tablut.ViewModel.csproj">
+      <Project>{843CFBF1-9B62-4EA2-8F84-C22D517A8071}</Project>
+      <Name>Tablut.ViewModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tablut\Tablut.csproj">
       <Project>{0BE70A92-3B1F-4779-BA73-474F9A3CDFC3}</Project>
       <Name>Tablut</Name>

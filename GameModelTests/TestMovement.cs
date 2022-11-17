@@ -74,7 +74,7 @@ namespace GameModelTests
             gameModel.StepOrSelect(2, 0);
             Assert.IsTrue(gameModel.CurrentPlayer.SelectedPiece != null && gameModel.CurrentPlayer.SelectedPiece.Place.X == 2 && gameModel.CurrentPlayer.SelectedPiece.Place.Y == 0 && gameModel.CurrentPlayer.SelectedPiece.Player == gameModel.CurrentPlayer);
             gameModel.StepOrSelect(2, 3);
-            Assert.IsTrue(gameModel.Table.GetField(2, 3).Piece != null && gameModel.Table.GetField(1, 3).Piece == null && gameModel.Table.GetField(0, 3).Piece != null && AttackerWon && gameModel.GameState == GameState.GameOver);
+            Assert.IsTrue(gameModel.Table.GetField(2, 3).Piece != null && gameModel.Table.GetField(1, 3).Piece == null && gameModel.Table.GetField(0, 3).Piece != null && AttackerWon && gameModel.GameState == GameState.AttackerWon);
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace GameModelTests
             gameModel.StepOrSelect(1, 3);
             Assert.IsTrue(gameModel.CurrentPlayer.SelectedPiece != null && gameModel.CurrentPlayer.SelectedPiece.Place.X == 1 && gameModel.CurrentPlayer.SelectedPiece.Place.Y == 3 && gameModel.CurrentPlayer.SelectedPiece.Player == gameModel.CurrentPlayer);
             gameModel.StepOrSelect(1, 0);
-            Assert.IsTrue(gameModel.Table.GetField(1, 0).Piece != null && DefenderWon && gameModel.GameState == GameState.GameOver);
+            Assert.IsTrue(gameModel.Table.GetField(1, 0).Piece != null && DefenderWon && gameModel.GameState == GameState.DefenderWon);
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace GameModelTests
             gameModel.StepOrSelect(2, 3);
             Assert.IsTrue(gameModel.CurrentPlayer.SelectedPiece != null && gameModel.CurrentPlayer.SelectedPiece.Place.X == 2 && gameModel.CurrentPlayer.SelectedPiece.Place.Y == 3 && gameModel.CurrentPlayer.SelectedPiece.Player == gameModel.CurrentPlayer);
             gameModel.StepOrSelect(2, 4);
-            Assert.IsTrue(gameModel.Table.GetField(3, 4).Piece == null && gameModel.GameState == GameState.GameOver);
+            Assert.IsTrue(gameModel.Table.GetField(3, 4).Piece == null && gameModel.GameState == GameState.AttackerWon);
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace GameModelTests
             gameModel.StepOrSelect(2, 3);
             Assert.IsTrue(gameModel.CurrentPlayer.SelectedPiece != null && gameModel.CurrentPlayer.SelectedPiece.Place.X == 2 && gameModel.CurrentPlayer.SelectedPiece.Place.Y == 3 && gameModel.CurrentPlayer.SelectedPiece.Player == gameModel.CurrentPlayer);
             gameModel.StepOrSelect(2, 4);
-            Assert.IsTrue(gameModel.Table.GetField(3, 4).Piece == null && gameModel.GameState == GameState.GameOver);
+            Assert.IsTrue(gameModel.Table.GetField(3, 4).Piece == null && gameModel.GameState == GameState.DefenderWon);
         }
 
     }

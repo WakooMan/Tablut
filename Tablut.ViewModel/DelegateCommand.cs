@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Windows.Input;
 
 namespace Tablut.ViewModel
 {
-    public class DelegateCommand
+    public class DelegateCommand: ICommand
     {
         #region Private Fields
 
