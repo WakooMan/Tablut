@@ -29,18 +29,14 @@ namespace Tablut.Droid
         private VisualElementRenderer _visualElementRenderer;
         private VisualElementTracker _visualElementTracker;
 
-        private Paint _attackerSoldierPaint;
-        private ShapeDrawable _attackerSoldierShape;
-        private Paint _defenderSoldierPaint;
-        private ShapeDrawable _defenderSoldierShape;
-        private Paint _selectedAttackerSoldierPaint;
-        private ShapeDrawable _selectedAttackerSoldierShape;
-        private Paint _selectedDefenderSoldierPaint;
-        private ShapeDrawable _selectedDefenderSoldierShape;
-        private Paint _defenderKingPaint;
-        private ShapeDrawable _defenderKingShape;
-        private Paint _selectedDefenderKingPaint;
-        private ShapeDrawable _selectedDefenderKingShape;
+        private Paint _defenderPaint;
+        private Paint _selectedPaint;
+        private Paint _attackerPaint;
+        private ShapeDrawable _defenderCircleShape;
+        private ShapeDrawable _attackerCircleShape;
+        private ShapeDrawable _selectedCircleShape;
+        private ShapeDrawable _crownShape;
+        private ShapeDrawable _selectedCrownShape;
         public event EventHandler<VisualElementChangedEventArgs> ElementChanged;
         public event EventHandler<PropertyChangedEventArgs> ElementPropertyChanged;
         public FieldAndroidRenderer(Context context) : base(context)
@@ -81,20 +77,51 @@ namespace Tablut.Droid
                 ElevationHelper.SetElevation(this, e.NewElement);
 
                 SetLayerType(LayerType.Software, null);
-                /*
-                 * rajzolás
-                _flagPaint = new Paint();
-                _flagPaint.SetStyle(Paint.Style.FillAndStroke);
-                _flagPaint.SetARGB(255, 255, 0, 0);
-                _flagShape = new ShapeDrawable(new RectShape());
-                _flagShape.Paint.Set(_flagPaint);
 
-                _bombPaint = new Paint();
-                _bombPaint.SetStyle(Paint.Style.Fill);
-                _bombPaint.SetARGB(255, 0, 0, 0);
-                _bombShape = new ShapeDrawable(new OvalShape());
-                _bombShape.Paint.Set(_bombPaint);
-                */
+                //in the center of 100x100 rectangle
+                Path crownPath = new Path();
+                crownPath.MoveTo(8,90);
+                crownPath.LineTo(8,50);
+
+                crownPath.LineTo(22, 10);
+                crownPath.LineTo(36, 50);
+                crownPath.LineTo(50, 10);
+                crownPath.LineTo(64, 50);
+                crownPath.LineTo(78, 10);
+                crownPath.LineTo(92, 50);
+
+                crownPath.LineTo(92, 90);
+                crownPath.LineTo(8, 90);
+
+                crownPath.Close();
+
+
+                _attackerPaint = new Paint();
+                _attackerPaint.SetStyle(Paint.Style.Fill);
+                _attackerPaint.SetARGB(255,0,0,0);
+
+                _defenderPaint = new Paint();
+                _defenderPaint.SetStyle(Paint.Style.Fill);
+                _defenderPaint.SetARGB(255, 255, 255, 255);
+
+                _selectedPaint = new Paint();
+                _selectedPaint.SetStyle(Paint.Style.Stroke);
+                _selectedPaint.SetARGB(255, 0, 128, 0);
+
+                _selectedCircleShape = new ShapeDrawable(new OvalShape());
+                _selectedCircleShape.Paint.Set(_selectedPaint);
+
+                _selectedCrownShape = new ShapeDrawable(new PathShape(crownPath, 100, 100));
+                _selectedCrownShape.Paint.Set(_selectedPaint);
+
+                _attackerCircleShape = new ShapeDrawable(new OvalShape());
+                _attackerCircleShape.Paint.Set(_attackerPaint);
+
+                _defenderCircleShape = new ShapeDrawable(new OvalShape());
+                _defenderCircleShape.Paint.Set(_defenderPaint);
+
+                _crownShape = new ShapeDrawable(new PathShape(crownPath,100,100));
+                _crownShape.Paint.Set(_defenderPaint);
             }
 
             ElementChanged?.Invoke(this, new VisualElementChangedEventArgs(e.OldElement, e.NewElement));
@@ -120,17 +147,42 @@ namespace Tablut.Droid
             {
                 int centerX = canvas.Width / 2;
                 int centerY = canvas.Height / 2;
+                int size = Math.Min(canvas.Width / 5 * 4, canvas.Height / 5 * 4);
+                int strokeWidth = Math.Min(canvas.Width / 10*2, canvas.Height / 10*2);
 
                 switch (_element.PieceType)
                 {
                     case PieceType.SelectedAttackerSoldier:
+                        _attackerCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
+                        _selectedPaint.StrokeWidth = strokeWidth;
+                        _selectedCircleShape.SetBounds(centerX - size - strokeWidth, centerY - size - strokeWidth, centerX + size + strokeWidth, centerY + size + strokeWidth);
+                        _attackerCircleShape.Draw(canvas);
+                        _selectedCircleShape.Draw(canvas);
+                        break;
                     case PieceType.AttackerSoldier:
+                        _attackerCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
+                        _attackerCircleShape.Draw(canvas);
                         break;
                     case PieceType.SelectedDefenderSoldier:
+                        _defenderCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
+                        _selectedPaint.StrokeWidth = strokeWidth;
+                        _selectedCircleShape.SetBounds(centerX - size -strokeWidth, centerY - size -strokeWidth, centerX + size +strokeWidth, centerY + size + strokeWidth);
+                        _defenderCircleShape.Draw(canvas);
+                        _selectedCircleShape.Draw(canvas);
+                        break;
                     case PieceType.DefenderSoldier:
+                        _defenderCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
+                        _defenderCircleShape.Draw(canvas);
                         break;
                     case PieceType.SelectedDefenderKing:
+                        _crownShape.SetBounds(0 + strokeWidth, 0 + strokeWidth, canvas.Width -strokeWidth, canvas.Height -strokeWidth);
+                        _selectedCrownShape.SetBounds(0, 0, canvas.Width, canvas.Height);
+                        _crownShape.Draw(canvas);
+                        _selectedCrownShape.Draw(canvas);
+                        break;
                     case PieceType.DefenderKing:
+                        _crownShape.SetBounds(0 + strokeWidth, 0 + strokeWidth, canvas.Width - strokeWidth, canvas.Height - strokeWidth);
+                        _crownShape.Draw(canvas);
                         break;
                     case PieceType.None:
                     default:
