@@ -91,6 +91,10 @@
       <Project>{83FE0E8E-EAAE-4311-B404-7C4ACE28CC36}</Project>
       <Name>Tablut.Persistence</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tablut.ViewModel\Tablut.ViewModel.csproj">
+      <Project>{843CFBF1-9B62-4EA2-8F84-C22D517A8071}</Project>
+      <Name>Tablut.ViewModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tablut\Tablut.csproj">
       <Project>{0BE70A92-3B1F-4779-BA73-474F9A3CDFC3}</Project>
       <Name>Tablut</Name>
