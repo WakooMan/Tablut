@@ -23,7 +23,7 @@ namespace Tablut.ViewModel
 
         private void Command_MainMenu(object param)
         {
-            OnPopToRootState?.Invoke();
+            OnPushState?.Invoke(new MainMenuViewModel());
         }
 
     }

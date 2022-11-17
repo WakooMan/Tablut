@@ -4,6 +4,7 @@ using Tablut.Model.GameModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
+using System.IO;
 
 [assembly:Dependency(typeof(Tablut.Persistence.TablutPersistenceBinary))]
 
@@ -15,19 +16,10 @@ namespace Tablut
         public App()
         {
             InitializeComponent();
-            CurrentState = new ApplicationState(new MainMenuViewModel());
-            MainPage = CurrentState.NavPage;
-            ApplicationViewModel.SetOnPushState(async (viewModel) =>
+            CurrentState = new ApplicationState(page => MainPage = page,new MainMenuViewModel());
+            ApplicationViewModel.SetOnPushState((viewModel) =>
             {
-                await CurrentState.OnPushState(viewModel);
-            });
-            ApplicationViewModel.SetOnPopState(async () =>
-            {
-                await CurrentState.OnPopState();
-            });
-            ApplicationViewModel.SetOnPopToRootState(async () =>
-            {
-                await CurrentState.OnPopToRootState();
+                CurrentState.OnPushState(viewModel);
             });
         }
        
@@ -42,7 +34,7 @@ namespace Tablut
             await CurrentState.SaveApplicationState();
         }
 
-        protected async override void OnResume()
+        protected override async void OnResume()
         {
             await CurrentState.LoadApplicationState();
         }

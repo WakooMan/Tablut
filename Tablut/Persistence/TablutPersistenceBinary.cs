@@ -8,7 +8,7 @@ namespace Tablut.Persistence
 {
     public class TablutPersistenceBinary : ITablutPersistence
     {
-        public TablutState LoadGameState(string fileName)
+        public Task<TablutState> LoadGameState(string fileName)
         {
             try
             {
@@ -19,9 +19,9 @@ namespace Tablut.Persistence
                 {
                     state = TablutState.Read(reader);
                 }
-                return state;
+                return Task.FromResult(state);
             }
-            catch(Exception) { return null; }
+            catch(Exception) { return Task.FromResult<TablutState>(null); }
         }
 
         public Task SaveGameState(string fileName,TablutState state)

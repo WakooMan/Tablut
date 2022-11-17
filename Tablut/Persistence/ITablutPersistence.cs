@@ -8,6 +8,6 @@ namespace Tablut.Persistence
     public interface ITablutPersistence
     {
         Task SaveGameState(string fileName,TablutState state);
-        TablutState LoadGameState(string filename);
+        Task<TablutState> LoadGameState(string filename);
     }
 }

@@ -16,12 +16,12 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Button Text="{Binding FileName}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding LoadGameCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Text="{Binding FileName}" BackgroundColor="Green" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding LoadGameCommand}" CommandParameter="{Binding}"></Button>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Grid.Row="2" Text="{Binding BackText}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding BackCommand}" CommandParameter="{Binding}"></Button>
+            <Button Grid.Row="2" Text="{Binding BackText}" BackgroundColor="Green" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding BackCommand}" CommandParameter="{Binding}"></Button>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

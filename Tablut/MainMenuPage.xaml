@@ -17,9 +17,9 @@
                     <RowDefinition Height="25*"></RowDefinition>
                     <RowDefinition Height="25*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Margin="30" Text="{Binding NewGameText}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding NewGameCommand}"></Button>
-                <Button Grid.Row="1" Margin="30" Text="{Binding LoadGameText}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding LoadGameCommand}"></Button>
-                <Button Grid.Row="2" Margin="30" Text="{Binding ExitText}" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding ExitCommand}"></Button>
+                <Button Grid.Row="0" Margin="30" Text="{Binding NewGameText}" BackgroundColor="Green" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding NewGameCommand}"></Button>
+                <Button Grid.Row="1" Margin="30" Text="{Binding LoadGameText}" BackgroundColor="Green" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding LoadGameCommand}"></Button>
+                <Button Grid.Row="2" Margin="30" Text="{Binding ExitText}" BackgroundColor="Green" TextColor="Yellow" FontAttributes="Bold" FontSize="Medium" Command="{Binding ExitCommand}"></Button>
             </Grid>
         </Grid>
     </ContentPage.Content>

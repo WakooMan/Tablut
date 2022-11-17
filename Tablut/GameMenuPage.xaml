@@ -14,10 +14,10 @@
                 <RowDefinition Height="25*"></RowDefinition>
                 <RowDefinition Height="25*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" TextColor="Yellow"></Button>
-            <Button Grid.Row="1" Text="{Binding SaveText}" Command="{Binding SaveCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" TextColor="Yellow"></Button>
-            <Button Grid.Row="2" Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" TextColor="Yellow"></Button>
-            <Button Grid.Row="3" Text="{Binding ExitText}" Command="{Binding ExitCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" TextColor="Yellow"></Button>
+            <Button Grid.Row="0" Text="{Binding ContinueText}" Command="{Binding ContinueCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" BackgroundColor="Green" TextColor="Yellow"></Button>
+            <Button Grid.Row="1" Text="{Binding SaveText}" Command="{Binding SaveCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" BackgroundColor="Green" TextColor="Yellow"></Button>
+            <Button Grid.Row="2" Text="{Binding SaveAndExitText}" Command="{Binding SaveAndExitCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" BackgroundColor="Green" TextColor="Yellow"></Button>
+            <Button Grid.Row="3" Text="{Binding ExitText}" Command="{Binding ExitCommand}" CommandParameter="{Binding}" Padding="10" Margin="10" FontAttributes="Bold" BackgroundColor="Green" TextColor="Yellow"></Button>
         </Grid>
     </AbsoluteLayout>
 </ContentPage>

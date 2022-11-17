@@ -47,20 +47,21 @@ namespace Tablut.ViewModel
             Game.Model.Unpause();
         }
 
-        private void Command_Save(object param)
+        private async void Command_Save(object param)
         {
-            DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
+            await DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
+            Command_Continue(param);
         }
 
-        private void Command_SaveAndExit(object param)
+        private async void Command_SaveAndExit(object param)
         {
-            Command_Save(param);
+            await DependencyService.Get<ITablutPersistence>().SaveGameState(Game.SaveFileName + ".tablut", new SaveGameState(Game));
             Command_Exit(param);
         }
 
         private void Command_Exit(object param)
         {
-            OnPopToRootState?.Invoke();
+            OnPushState?.Invoke(new MainMenuViewModel());
         }
     }
 }

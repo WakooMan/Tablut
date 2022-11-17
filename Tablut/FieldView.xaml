@@ -27,27 +27,27 @@
                     <Setter Property="IsVisible" Value="False" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedDefenderKing">
-                    <Setter Property="Source" Value="Resources/SelectedDefenderKing.png" />
+                    <Setter Property="Source" Value="SelectedDefenderKing.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedDefenderSoldier">
-                    <Setter Property="Source" Value="Resources/SelectedDefenderSoldier.png" />
+                    <Setter Property="Source" Value="SelectedDefenderSoldier.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="SelectedAttackerSoldier">
-                    <Setter Property="Source" Value="Resources/SelectedAttackerSoldier.png" />
+                    <Setter Property="Source" Value="SelectedAttackerSoldier.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="DefenderSoldier">
-                    <Setter Property="Source" Value="Resources/DefenderSoldier.png" />
+                    <Setter Property="Source" Value="DefenderSoldier.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="DefenderKing">
-                    <Setter Property="Source" Value="Resources/DefenderKing.png" />
+                    <Setter Property="Source" Value="DefenderKing.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
                 <DataTrigger TargetType="Image" Binding="{Binding Piece}" Value="AttackerSoldier">
-                    <Setter Property="Source" Value="Resources/AttackerSoldier.png" />
+                    <Setter Property="Source" Value="AttackerSoldier.png" />
                     <Setter Property="IsVisible" Value="True" />
                 </DataTrigger>
             </Image.Triggers>

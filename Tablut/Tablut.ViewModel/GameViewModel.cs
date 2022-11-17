@@ -149,7 +149,7 @@ namespace Tablut.ViewModel
             };
             _model.OnUnpausedEvent += (o, e) =>
             {
-                OnPopState?.Invoke();
+                OnPushState?.Invoke(this);
             };
         }
         private FieldViewModel GetFieldViewModel(int X, int Y)

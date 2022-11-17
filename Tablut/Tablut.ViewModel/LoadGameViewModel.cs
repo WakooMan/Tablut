@@ -27,13 +27,13 @@ namespace Tablut.ViewModel
 
         private void Command_Back(object param)
         {
-            OnPopToRootState?.Invoke();
+            OnPushState?.Invoke(new MainMenuViewModel());
         }
 
-        private void Command_LoadGame(object param)
+        private async void Command_LoadGame(object param)
         {
             SavedGameViewModel model = param as SavedGameViewModel;
-            TablutState state = DependencyService.Get<ITablutPersistence>().LoadGameState(model.FileName + ".tablut");
+            TablutState state = await DependencyService.Get<ITablutPersistence>().LoadGameState(model.FileName + ".tablut");
             OnPushState?.Invoke(state.Model);
         }
     }

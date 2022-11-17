@@ -17,10 +17,11 @@ namespace Tablut
         Dictionary<Type,Type> PageForVMs = new Dictionary<Type, Type>();
         Dictionary<Type, ConstructorInfo> AppStateForVMs = new Dictionary<Type, ConstructorInfo>();
         public Page Page { get; private set; }
-        public NavigationPage NavPage { get; }
+        public Action<Page> OnPushPage { get; }
         public ApplicationViewModel Model { get; private set; }
-        public ApplicationState(ApplicationViewModel model)
+        public ApplicationState(Action<Page> onPushPage,ApplicationViewModel model)
         {
+            OnPushPage = onPushPage;
             PageForVMs.Add(typeof(GameViewModel), typeof(GamePage));
             PageForVMs.Add(typeof(InitGameViewModel), typeof(InitGamePage));
             PageForVMs.Add(typeof(MainMenuViewModel), typeof(MainMenuPage));
@@ -35,7 +36,7 @@ namespace Tablut
             Model = model;
             Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
-            NavPage = new NavigationPage(Page);
+            OnPushPage(Page);
         }
 
         public async Task SaveApplicationState()
@@ -56,47 +57,35 @@ namespace Tablut
 
         public async Task LoadApplicationState()
         {
-            TablutState state = DependencyService.Get<ITablutPersistence>().LoadGameState("save.dat");
+            TablutState state = await DependencyService.Get<ITablutPersistence>().LoadGameState("save.dat");
             if (state != null)
             {
-                await OnPushState(state.Model);
+                OnPushState(state.Model);
                 if (state.Model is GameViewModel)
                 {
                     GameViewModel model = (GameViewModel)state.Model;
                     switch (model.Model.GameState)
                     {
                         case GameState.Paused:
-                            await OnPushState(new GameMenuViewModel(model));
+                            OnPushState(new GameMenuViewModel(model));
                             break;
                         case GameState.AttackerWon:
-                            await OnPushState(new GameOverViewModel(model.AttackerName,model,PlayerSide.Attacker));
+                            OnPushState(new GameOverViewModel(model.AttackerName,model,PlayerSide.Attacker));
                             break;
                         case GameState.DefenderWon:
-                            await OnPushState(new GameOverViewModel(model.DefenderName, model, PlayerSide.Defender));
+                            OnPushState(new GameOverViewModel(model.DefenderName, model, PlayerSide.Defender));
                             break;
                     }
                 }
             }
         }
 
-        public async Task OnPushState(ApplicationViewModel viewModel)
+        public void OnPushState(ApplicationViewModel viewModel)
         {
             Model = viewModel;
             Page = (Page)Activator.CreateInstance(PageForVMs[Model.GetType()]);
             Page.BindingContext = Model;
-            NavigationPage.SetHasBackButton(Page, false);
-            await NavPage.PushAsync(Page);
+            OnPushPage(Page);
         }
-
-        public async Task OnPopState()
-        {
-            await NavPage.PopAsync();
-        }
-
-        public async Task OnPopToRootState()
-        {
-            await NavPage.PopToRootAsync();
-        }
-
     }
 }
