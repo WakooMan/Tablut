@@ -64,10 +64,11 @@ namespace Tablut.Model.GameModel
 
         public virtual void Die()
         {
-            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { new PieceDiesArgs(Player, Place.X, Place.Y) });
+            Field OldPlace = Place;
             IsAlive = false;
             place.Piece = null;
             place = Field.Invalid;
+            InvokeEvent(EventTypeFlag.OnPieceDies, new object[] { new PieceDiesArgs(Player, OldPlace.X, OldPlace.Y) });
         }
 
     }

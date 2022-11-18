@@ -18,7 +18,7 @@
             <Setter Property="BackgroundColor" Value="ForestGreen" />
         </DataTrigger>
     </Frame.Triggers>
-    <Frame Padding="10" Margin="0" BackgroundColor="DarkOrange">
+    <Frame Padding ="5" Margin="0" BackgroundColor="DarkOrange">
         <Grid>
             <tablut:PieceView PieceType="{Binding Piece}"></tablut:PieceView>
         </Grid>

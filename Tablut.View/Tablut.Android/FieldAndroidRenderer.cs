@@ -147,15 +147,16 @@ namespace Tablut.Droid
             {
                 int centerX = canvas.Width / 2;
                 int centerY = canvas.Height / 2;
-                int size = Math.Min(canvas.Width / 5 * 4, canvas.Height / 5 * 4);
-                int strokeWidth = Math.Min(canvas.Width / 10*2, canvas.Height / 10*2);
+                int size = Math.Min(canvas.Width / 5 * 2, canvas.Height / 5 * 2);
+                int strokeWidth = Math.Min(canvas.Width / 10, canvas.Height / 10);
 
                 switch (_element.PieceType)
                 {
                     case PieceType.SelectedAttackerSoldier:
                         _attackerCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
                         _selectedPaint.StrokeWidth = strokeWidth;
-                        _selectedCircleShape.SetBounds(centerX - size - strokeWidth, centerY - size - strokeWidth, centerX + size + strokeWidth, centerY + size + strokeWidth);
+                        _selectedCircleShape.Paint.Set(_selectedPaint);
+                        _selectedCircleShape.SetBounds(centerX - size - strokeWidth/2 , centerY - size - strokeWidth/2, centerX + size + strokeWidth/2, centerY + size + strokeWidth/2);
                         _attackerCircleShape.Draw(canvas);
                         _selectedCircleShape.Draw(canvas);
                         break;
@@ -166,7 +167,8 @@ namespace Tablut.Droid
                     case PieceType.SelectedDefenderSoldier:
                         _defenderCircleShape.SetBounds(centerX - size, centerY - size, centerX + size, centerY + size);
                         _selectedPaint.StrokeWidth = strokeWidth;
-                        _selectedCircleShape.SetBounds(centerX - size -strokeWidth, centerY - size -strokeWidth, centerX + size +strokeWidth, centerY + size + strokeWidth);
+                        _selectedCircleShape.Paint.Set(_selectedPaint);
+                        _selectedCircleShape.SetBounds(centerX - size - strokeWidth / 2, centerY - size - strokeWidth / 2, centerX + size + strokeWidth / 2, centerY + size + strokeWidth / 2);
                         _defenderCircleShape.Draw(canvas);
                         _selectedCircleShape.Draw(canvas);
                         break;
@@ -175,13 +177,15 @@ namespace Tablut.Droid
                         _defenderCircleShape.Draw(canvas);
                         break;
                     case PieceType.SelectedDefenderKing:
-                        _crownShape.SetBounds(0 + strokeWidth, 0 + strokeWidth, canvas.Width -strokeWidth, canvas.Height -strokeWidth);
+                        _crownShape.SetBounds(0 + strokeWidth / 2, 0 + strokeWidth / 2, canvas.Width - strokeWidth / 2, canvas.Height - strokeWidth / 2);
+                        _selectedPaint.StrokeWidth = strokeWidth;
+                        _selectedCrownShape.Paint.Set(_selectedPaint);
                         _selectedCrownShape.SetBounds(0, 0, canvas.Width, canvas.Height);
                         _crownShape.Draw(canvas);
                         _selectedCrownShape.Draw(canvas);
                         break;
                     case PieceType.DefenderKing:
-                        _crownShape.SetBounds(0 + strokeWidth, 0 + strokeWidth, canvas.Width - strokeWidth, canvas.Height - strokeWidth);
+                        _crownShape.SetBounds(0 + strokeWidth / 2, 0 + strokeWidth / 2, canvas.Width - strokeWidth / 2, canvas.Height - strokeWidth / 2);
                         _crownShape.Draw(canvas);
                         break;
                     case PieceType.None:

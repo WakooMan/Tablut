@@ -125,7 +125,7 @@ namespace Tablut.Model.GameModel
 
         private void OnPieceDies(PieceDiesArgs args)
         {
-            if (args.Player.AlivePieces.Count() == 0 && args.Player.Side == PlayerSide.Attacker)
+            if (!args.Player.AlivePieces.Any() && args.Player.Side == PlayerSide.Attacker)
             {
                 InvokeEvent(EventTypeFlag.OnDefenderWins,new object[] { });
             }

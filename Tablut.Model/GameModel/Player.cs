@@ -18,9 +18,9 @@ namespace Tablut.Model.GameModel
 
         public PlayerSide Side => side;
         public string Name => name;
-        public IEnumerable<Piece> Pieces => pieces;
-        public IEnumerable<Piece> AlivePieces => pieces.Where(p => p.IsAlive);
-        public IEnumerable<Piece> DeadPieces => pieces.Where(p => !p.IsAlive);
+        public IReadOnlyList<Piece> Pieces => pieces;
+        public IReadOnlyList<Piece> AlivePieces => pieces.Where(p => p.IsAlive).ToList();
+        public IReadOnlyList<Piece> DeadPieces => pieces.Where(p => !p.IsAlive).ToList();
         public Player(string name,PlayerSide side,Table table,(int x,int y)[] values, Action<EventTypeFlag, object[]> InvokeEvent,bool HasKing = true)
         {
             this.InvokeEvent = InvokeEvent;

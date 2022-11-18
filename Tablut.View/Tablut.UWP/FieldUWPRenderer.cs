@@ -41,8 +41,9 @@ namespace Tablut.UWP
                         Images.Add(PieceType.SelectedDefenderKing, new BitmapImage(new Uri("ms-appx:///Assets/SelectedDefenderKing.png")));
                         Images.Add(PieceType.SelectedDefenderSoldier, new BitmapImage(new Uri("ms-appx:///Assets/SelectedDefenderSoldier.png")));
                         Images.Add(PieceType.AttackerSoldier, new BitmapImage(new Uri("ms-appx:///Assets/AttackerSoldier.png")));
-                        Images.Add(PieceType.SelectedAttackerSoldier, new BitmapImage(new Uri("ms-appx:///SelectedAttackerSoldier/mine.png")));
+                        Images.Add(PieceType.SelectedAttackerSoldier, new BitmapImage(new Uri("ms-appx:///Assets/SelectedAttackerSoldier.png")));
                     }
+                    _image.Source = Images[e.NewElement.PieceType];
                     SetNativeControl(_image);
                 }
                 //Subscribe to events
