@@ -139,7 +139,6 @@ namespace Tablut.ViewModel
             StartCommand = new DelegateCommand(Command_Start);
             BackCommand = new DelegateCommand(Command_Back);
         }
-
         private void Command_Start(object obj)
         {
             HasFileNameError = false;
@@ -148,49 +147,63 @@ namespace Tablut.ViewModel
             FileNameError = "";
             P1NameError = "";
             P2NameError = "";
-            if (string.IsNullOrEmpty(FileName))
+            string fname = FileName.ToLower();
+            string p1name = string.Empty;
+            string p2name = string.Empty;
+         
+            if (string.IsNullOrEmpty(fname))
             {
                 FileNameError = "Give me a filename.";
                 HasFileNameError = true;
             }
-            else if (FileName.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
+            else if (fname.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
             {
                 FileNameError = "The given filename contains invalid filename characters.";
                 HasFileNameError = true;
             }
-            else if (SavedGames.Contains(FileName))
+            else if (SavedGames.Contains(fname))
             {
                 FileNameError = "The given filename is used already.";
                 HasFileNameError = true;
             }
-            if (string.IsNullOrEmpty(P1Name))
+
+            if (string.IsNullOrEmpty(P1Name) || P1Name.Length < 4)
             {
-                P1NameError = "Give me the Attacker player's name.";
+                P1NameError = "The attacker player's name should be at least 4 characters long";
                 HasP1NameError = true;
             }
-            else if (P1Name.Any(c => !char.IsLetter(c)))
+            if (!HasP1NameError)
             {
-                P1NameError = "Player name can only contain letters.";
-                HasP1NameError = true;
+                p1name = P1Name.Substring(0, 1).ToUpper() + P1Name.Substring(1).ToLower();
+                if (p1name.Any(c => !char.IsLetter(c)))
+                {
+                    P1NameError = "Player name can only contain letters.";
+                    HasP1NameError = true;
+                }
             }
-            if (string.IsNullOrEmpty(P2Name))
+
+            if (string.IsNullOrEmpty(P2Name) || P2Name.Length < 4)
             {
-                P2NameError = "Give me the Defender player's name.";
+                P2NameError = "The defender player's name should be at least 4 characters long";
                 HasP2NameError = true;
             }
-            else if (P2Name.Any(c => !char.IsLetter(c)))
+            if (!HasP2NameError)
             {
-                P2NameError = "Player name can only contain letters.";
-                HasP2NameError = true;
-            }
-            else if (P2Name == P1Name)
-            {
-                P2NameError = "The Attacker's name and the Defender's name can't be the same.";
-                HasP2NameError = true;
+                p2name = P2Name.Substring(0, 1).ToUpper() + P2Name.Substring(1).ToLower();
+                if (p2name.Any(c => !char.IsLetter(c)))
+                {
+                    P2NameError = "Player name can only contain letters.";
+                    HasP2NameError = true;
+                }
+                else if (p2name == p1name)
+                {
+                    P2NameError = "The Attacker's name and the Defender's name can't be the same.";
+                    HasP2NameError = true;
+                }
             }
             if (!HasFileNameError && !HasP1NameError && !HasP2NameError)
             {
-                OnPushState?.Invoke(new GameViewModel(new GameModel(P1Name, P2Name), FileName));
+                OnPushState?.Invoke(new GameViewModel(new GameModel(p1name, p2name), fname));
             }
         }
 

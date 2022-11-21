@@ -36,7 +36,7 @@
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-                <Button Grid.Row="3" Text="{Binding MainMenuText}" Command="{Binding MainMenuCommand}" CommandParameter="{Binding}" FontAttributes="Bold" TextColor="Yellow" FontSize="Medium"></Button>
+                <Button Grid.Row="3" Text="{Binding MainMenuText}" Command="{Binding MainMenuCommand}" CommandParameter="{Binding}" FontAttributes="Bold" BackgroundColor="Green" TextColor="Yellow" FontSize="Medium"></Button>
             </Grid>
         </AbsoluteLayout>
     </ContentPage.Content>
